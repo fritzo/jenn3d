@@ -1,7 +1,4 @@
-
 # Jenn3d #
-
-[Main site](http://jenn3d.org)
 
 Jenn is a toy for playing with various quotients of Cayley graphs of finite
 Coxeter groups on four generators. Jenn builds the graphs using the
@@ -10,6 +7,32 @@ projects them onto euclidean 3-space. (The models really live in the
 hypersphere so they looked curved in our flat space.) Jenn has some basic
 motion models governing the six degrees of freedom of rotation of the
 hypersphere.
+
+## Installing ##
+
+Binaries are available at [jenn3d.org](http://jenn3d.org).
+
+To compile yourself,
+1. extract and unzip 
+2. edit makefile: specify the target type
+3. make
+4. run jenn or jenn.exe
+
+For example:
+
+    $ tar -xzf jenn.2006_07_28.tgz
+    $ cd jenn3d
+    $ vim Makefile  # uncomment your compile type
+    $ make
+    $ ./jenn
+    
+You may also need to install the Glut and (optionally) the libpng libraries.
+Users of Debian-based systems such as Ubuntu or Mac+Fink can get this with
+
+    $ sudo apt-get install freeglut3-dev
+    $ sudo apt-get install libpng12-dev  # or libpng3 on for Macs
+
+On Windows+Cygwin you will need glut32.dll.
 
 ## Example Arguments ##
 
@@ -73,16 +96,8 @@ hypersphere.
     -c 5 2 2 3 2 3 -v 2 -e 0 1 3 -f 02 03 12 13 # city of glass 2
     -c 5 2 2 3 2 3 -e 0 2 1 3 -f 02 03 12 13 -w 2 1 1 1 # world of glass
     
-    #subgroups
+    # subgroups
     -c 3 2 2 4 2 3 -g 01 02 03 12 13 23 -e 01 02 03 12 13 23 -f 01 02 03 12 13 23
-
-## Table of Polytopes ##
- 
-Notation: "relns" : "cosets" : "verts","edges"
-
-Name | relations | cosets | vertices | edges
-5-3-3 | 0,1,2 | 120 | 720
-5-3-3 | 1,2,3 | 600 | 1200
 
 ## License ##
 
