@@ -564,12 +564,13 @@ Graph::Graph(const int *cartan,
 
         //define basic face in group
         Ring basic(1,0);
-        int g = 0;
+//        g = 0;
+        int g0 = 0;
         for (unsigned c=0; true; ++c) {
-            g = group.left(g, face[c%face.size()]);
-            if (c >= face.size() and g == 0) break;
-            if (in_subgroup.find(g) != in_subgroup.end() and g != basic.back()) {
-                basic.push_back(g);
+            g0 = group.left(g0, face[c%face.size()]);
+            if (c >= face.size() and g0 == 0) break;
+            if (in_subgroup.find(g0) != in_subgroup.end() and g0 != basic.back()) {
+                basic.push_back(g0);
             }
         }
         for (unsigned c=0; c<basic.size(); ++c) {
