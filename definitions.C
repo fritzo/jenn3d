@@ -34,7 +34,7 @@ std::ofstream logFile(LOG_FILE);
 void title (std::string name)
 {
     live_out << "================ " << name
-             << " ================" |0; //green
+             << " ================" |0;
 }
 
 //indentation stuff
