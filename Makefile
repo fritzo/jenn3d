@@ -4,14 +4,16 @@
 
 #COMPILE_TYPE = mac
 #COMPILE_TYPE = mac_debug
+#Note: CYGWIN now is synonim for MinGW
 #COMPILE_TYPE = cygwin
-#COMPILE_TYPE = linux
+COMPILE_TYPE = linux
 #COMPILE_TYPE = debug
 #COMPILE_TYPE = profile
-COMPILE_TYPE = devel
+#COMPILE_TYPE = devel
 
 #### if you have libpng installed, uncomment this:
 
+#HAVE_PNG = false
 HAVE_PNG = true
 
 ######## leave everything else the same #######################################
@@ -20,7 +22,7 @@ CC = g++
 CXX = g++
 
 #OPT = -O3 -funroll-loops -pipe
-OPT = -O3 -ffast-math -fomit-frame-pointer -funroll-loops -pipe
+OPT = -O3 -ffast-math -fomit-frame-pointer -funroll-loops -pipe -s
 #OPT = -O3 -m32 -march=prescott -malign-double -mfpmath=sse -ffast-math -fomit-frame-pointer -funroll-loops -fprefetch-loop-arrays -ftree-vectorize -fno-exceptions -fno-check-new -pipe
 WARNINGS = -Wall
 
@@ -33,7 +35,7 @@ GL_CYGWIN = -lglut32 -lglu32 -lopengl32
 ifdef HAVE_PNG
 	PNG_LINUX = -lpng
 	PNG_MAC = -L/sw/lib -lpng -lz
-	PNG_CYGWIN = -L/usr/local/lib -lpng -lz
+	PNG_CYGWIN = -L/usr/lib -lpng -lz
 	USR_CAPT = -DCAPTURE=4
 	DEV_CAPT = -DCAPTURE=24
 else
@@ -58,9 +60,9 @@ ifeq ($(COMPILE_TYPE), mac_debug)
 	LIBS = $(GL_MAC) $(PNG_MAC)
 endif
 ifeq ($(COMPILE_TYPE), cygwin)
-	CPPFLAGS = -I/usr/local/include -DDEBUG_LEVEL=0 -DCYGWIN_HACKS $(USR_CAPT)
-	CXXFLAGS = -I/usr/local/include -mno-cygwin -mwin32
-	LDFLAGS  = -L/usr/local/lib -mno-cygwin -mwin32
+	CPPFLAGS = -I/usr/include -DDEBUG_LEVEL=0 -DCYGWIN_HACKS $(USR_CAPT)
+	CXXFLAGS = $(OPT) -I/usr/include
+	LDFLAGS  = $(OPT) -L/usr/lib
 	LIBS = $(GL_CYGWIN) $(PNG_CYGWIN)
 endif
 ifeq ($(COMPILE_TYPE), linux)

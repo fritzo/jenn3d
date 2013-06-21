@@ -18,6 +18,8 @@ To compile yourself,
 3. make
 4. run jenn or jenn.exe
 
+Note: for Windows platform Jenn3d can be successfully build by using latest MinGW toolchain (with TDM-GCC and precompiled libpng and glut)
+
 For example:
 
     $ tar -xzf jenn.2006_07_28.tgz
