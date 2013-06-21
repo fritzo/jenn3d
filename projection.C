@@ -290,6 +290,7 @@ void Projector::_capture_little (char* image)
     glPixelTransferf(GL_RED_BIAS,   0.0f);
     glPixelTransferf(GL_GREEN_BIAS, 0.0f);
     glPixelTransferf(GL_BLUE_BIAS,  0.0f);
+    glPixelStorei(GL_PACK_ALIGNMENT, 1);
 
     if (in_color) {
         glPixelTransferf(GL_RED_SCALE,  1.0f);
@@ -335,7 +336,7 @@ void Projector::capture (unsigned Nwide, unsigned Nhigh)
     //allocate little-picture memory
     logger.debug() << "allocating little picture" |0;
     size_t color_bytes = in_color ? 3 : 1;
-    char* image = new(std::nothrow) char[w * h * color_bytes];
+    char* image = new(std::nothrow) char[(w+4) * (h+4) * color_bytes];
     if (image == NULL) {
         logger.warning() << "too little memory for little image" |0;
         return;
