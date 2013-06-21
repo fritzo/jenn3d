@@ -110,12 +110,12 @@ public:
 enum LogLevel {ERROR, WARNING, INFO, DEBUG, DEBUG1};
 const std::string levelNames[5] =
 {
-    "\033[31mERROR\033[39m",  //red
+    "ERROR",  //red
     //"\033[36mWARNING\033[39m",//cyan
-    "\033[31mwarning\033[39m",//red
-    "\033[32minfo\033[39m",   //green
-    "\033[33mdebug\033[39m",  //yellow
-    "\033[33mdebug1\033[39m"  //yellow
+    "warning",//red
+    "info",   //green
+    "debug",  //yellow
+    "debug1"  //yellow
 };
 class Logger
 {
