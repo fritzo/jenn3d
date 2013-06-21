@@ -33,8 +33,8 @@ std::ofstream logFile(LOG_FILE);
 //title/section label
 void title (std::string name)
 {
-    live_out << "\033[32m================ " << name
-             << " ================\033[37m" |0; //green
+    live_out << "================ " << name
+             << " ================" |0; //green
 }
 
 //indentation stuff
@@ -85,5 +85,4 @@ float time_difference ()
     g_last_time = g_this_time;
     return result;
 }
-
 
