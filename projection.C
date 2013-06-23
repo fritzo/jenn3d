@@ -362,11 +362,14 @@ void Projector::capture (unsigned Nwide, unsigned Nhigh)
         glAccum(GL_RETURN, 1.0f);
 
         //copy to big picture
+        char* source=image;
+        int w_raw=color_bytes*w;
+        int w_tot_raw=color_bytes*w_tot;
+        char* dest=image_tot+w_tot_raw*h*j+w_raw*i;
         for (int y=0; y<h; ++y) {
-            char* source = image + color_bytes * (w*y);
-            char* dest = image_tot + color_bytes
-                                   * (w_tot * (h*j + y) + w*i);
-            memcpy(dest, source, w*color_bytes);
+            memcpy(dest, source, w_raw);
+            source+=w_raw;
+            dest+=w_tot_raw;
         }
     }}
     drawing->set_clipping(true); //clipping math fails for tiled images
