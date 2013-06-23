@@ -286,39 +286,24 @@ void Projector::display (char* output)
 #ifdef CAPTURE
 void Projector::_capture_little (char* image)
 {//capture buffer to little picture
-    logger.debug() << "capturing grayscale tile" |0;
     glPixelTransferf(GL_RED_BIAS,   0.0f);
     glPixelTransferf(GL_GREEN_BIAS, 0.0f);
     glPixelTransferf(GL_BLUE_BIAS,  0.0f);
     glPixelStorei(GL_PACK_ALIGNMENT, 1);
-
-    if (in_color) {
-        glPixelTransferf(GL_RED_SCALE,  1.0f);
-        glPixelTransferf(GL_GREEN_SCALE,1.0f);
-        glPixelTransferf(GL_BLUE_SCALE, 1.0f);
-        glFinish();
-        glReadPixels(0,0,w,h, GL_RGB, GL_UNSIGNED_BYTE, image);
-    } else {
-        if (high_quality) {
-            //slower; prevents antialiasing effects
-            glPixelTransferf(GL_RED_SCALE,  0.33333333f);
-            glPixelTransferf(GL_GREEN_SCALE,0.33333333f);
-            glPixelTransferf(GL_BLUE_SCALE, 0.33333333f);
-            glFinish();
-            glReadPixels(0,0,w,h, GL_LUMINANCE, GL_UNSIGNED_BYTE, image);
-        } else {
-            //faster; ends up with very fewer shades
-            glPixelTransferf(GL_RED_SCALE,  1.0f);
-            glPixelTransferf(GL_GREEN_SCALE,1.0f);
-            glPixelTransferf(GL_BLUE_SCALE, 1.0f);
-            glAccum(GL_LOAD, 1.0f);
-            glAccum(GL_RETURN, 0.3333333f);
-            glFinish();
-            glReadPixels(0,0,w,h, GL_LUMINANCE, GL_UNSIGNED_BYTE, image);
-            glAccum(GL_RETURN, 1.0f);
-        }
-    }
+    bool t_type=(!in_color)&&(!high_quality);
+    float t_scale=(!in_color)&&high_quality?0.33333333f:1.0f;
+    glPixelTransferf(GL_RED_SCALE,t_scale);
+    glPixelTransferf(GL_GREEN_SCALE,t_scale);
+    glPixelTransferf(GL_BLUE_SCALE,t_scale);
+    if(t_type){
+        glAccum(GL_LOAD, 1.0f);
+        glAccum(GL_RETURN, 0.3333333f);
+    };
+    glFinish();
+    glReadPixels(0,0,w,h, in_color?GL_RGB:GL_LUMINANCE, GL_UNSIGNED_BYTE, image);
+    if(t_type) glAccum(GL_RETURN, 1.0f);
 }
+
 void Projector::capture (unsigned Nwide, unsigned Nhigh)
 {//captures, currently only grayscale
     logger.info() << "capturing " << Nwide << " x " << Nhigh << " screens in "
