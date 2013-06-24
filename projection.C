@@ -290,18 +290,18 @@ void Projector::_capture_little (char* image)
     glPixelTransferf(GL_GREEN_BIAS, 0.0f);
     glPixelTransferf(GL_BLUE_BIAS,  0.0f);
     glPixelStorei(GL_PACK_ALIGNMENT, 1);
-    bool t_type=(!in_color)&&(!high_quality);
-    float t_scale=(!in_color)&&high_quality?0.33333333f:1.0f;
-    glPixelTransferf(GL_RED_SCALE,t_scale);
-    glPixelTransferf(GL_GREEN_SCALE,t_scale);
-    glPixelTransferf(GL_BLUE_SCALE,t_scale);
-    if(t_type){
+    bool accumulating=(!in_color)&&(!high_quality);
+    float scale=(!in_color)&&high_quality?0.33333333f:1.0f;
+    glPixelTransferf(GL_RED_SCALE,scale);
+    glPixelTransferf(GL_GREEN_SCALE,scale);
+    glPixelTransferf(GL_BLUE_SCALE,scale);
+    if(accumulating){
         glAccum(GL_LOAD, 1.0f);
         glAccum(GL_RETURN, 0.3333333f);
     };
     glFinish();
     glReadPixels(0,0,w,h, in_color?GL_RGB:GL_LUMINANCE, GL_UNSIGNED_BYTE, image);
-    if(t_type) glAccum(GL_RETURN, 1.0f);
+    if(accumulating) glAccum(GL_RETURN, 1.0f);
 }
 
 void Projector::capture (unsigned Nwide, unsigned Nhigh)
