@@ -520,7 +520,7 @@ inline void stereo_project (const Vect& x, const Vect& dx, Vect& y)
     y[2] = s * x[2];
 
     float dw = - dx[3];
-    float da2 = sqr(dx[0] + dw * y[0]); 
+    float da2 = sqr(dx[0] + dw * y[0]);
     float db2 = sqr(dx[1] + dw * y[1]);
     float dc2 = sqr(dx[2] + dw * y[2]);
 
@@ -679,7 +679,7 @@ void Drawing::_draw_bulb (float* center, float radius)
     float outer = radius * 1.0f;
     float inner = radius * 0.9f;
     float depth = clamp_depth(center[2]);
-    for (int i = 0; i < POLY_SIDES; i+=step) {
+    for (unsigned i = 0; i < POLY_SIDES; i+=step) {
         poly1[i][0] = center[0] + inner * poly0[i][0];
         poly1[i][1] = center[1] + inner * poly0[i][1];
         poly1[i][2] = depth;
@@ -693,7 +693,7 @@ void Drawing::_draw_bulb (float* center, float radius)
     //draw filled center
     glColor4fv(color_fl);
     glBegin(GL_POLYGON);
-    for (int i = 0; i < POLY_SIDES; i+=step) {
+    for (unsigned i = 0; i < POLY_SIDES; i+=step) {
         glVertex3fv(poly1[i]);
     }
     glEnd();
@@ -701,7 +701,7 @@ void Drawing::_draw_bulb (float* center, float radius)
     //draw outline
     glColor4fv(color_fg);
     glBegin(GL_QUAD_STRIP);
-    for (int i = 0; i < POLY_SIDES; i+=step) {
+    for (unsigned i = 0; i < POLY_SIDES; i+=step) {
         glVertex3fv(poly1[i]);
         glVertex3fv(poly2[i]);
     }
@@ -738,8 +738,8 @@ void Drawing::_draw_sphere (float* center, float radius, int v)
     glCullFace(GL_BACK);
     glEnable(GL_CULL_FACE);
     if (radius < 0) glFrontFace(GL_CW);
-    
-    for (int i=step; i<=SPH_RHO; i += step) {
+
+    for (unsigned i=step; i<=SPH_RHO; i += step) {
         float inner_color[3], outer_color[3];
 #ifdef STRIPED
         float mod = modulate(phases[v]);
@@ -753,7 +753,7 @@ void Drawing::_draw_sphere (float* center, float radius, int v)
         float outer_depth = clamp_depth(center[2]+radius*sphere[  i   ][0][2]);
 
         glBegin(GL_QUAD_STRIP);
-        for (int j=0; j<SPH_THETA; j+=step) {
+        for (unsigned j=0; j<SPH_THETA; j+=step) {
             glColor3fv(inner_color);
             glVertex3f(center[0] + radius * sphere[i-step][j][0],
                        center[1] + radius * sphere[i-step][j][1],
@@ -791,7 +791,7 @@ void Drawing::_export_sphere (float* center, float radius, int v)
     for (int side = 0; side <=1; ++side) {
         sign = -sign;
 
-        for (int i=step; i<=SPH_RHO; i += step) {
+        for (unsigned i=step; i<=SPH_RHO; i += step) {
             float inner_depth = center[2] + sign*radius*sphere[i-step][0][2];
             float outer_depth = center[2] + sign*radius*sphere[  i   ][0][2];
 
@@ -919,7 +919,7 @@ void Drawing::_draw_arc2 (Vect& begin, Vect& end, float w)
             normalize(temp);
             stereo_project(temp, lines[s]);
         }
-        
+
         //draw foreground border
         glLineWidth(WIDTH_LINE + 2*WIDTH_BORDER);
         glColor4fv(color_fg);
@@ -1091,7 +1091,7 @@ void Drawing::_draw_tube (Vect& begin, Vect& end,
             complex phase = a * phases[v1] + b * phases[v0];
             float mod = modulate(phase);
 #endif
-            for (int i = 0; i < POLY_SIDES; i+=step) {
+            for (unsigned i = 0; i < POLY_SIDES; i+=step) {
                 //define points cylinder
                 poly1[i][0] = center[0]
                             + poly0[i][0] * du1[0]
@@ -1099,7 +1099,7 @@ void Drawing::_draw_tube (Vect& begin, Vect& end,
                 poly1[i][1] = center[1]
                             + poly0[i][0] * du1[1]
                             + poly0[i][1] * dv1[1];
-                poly1[i][2] = clamp_depth( center[2] + 
+                poly1[i][2] = clamp_depth( center[2] +
                                          + poly0[i][0] * du1[2]
                                          + poly0[i][1] * dv1[2]);
                 shade1[i]   = poly0[i][0] * du1[3]
@@ -1134,7 +1134,7 @@ void Drawing::_draw_tube (Vect& begin, Vect& end,
         complex phase = a * phases[v1] + b * phases[v0];
         float mod = modulate(phase);
 #endif
-        for (int i = 0; i < POLY_SIDES; i+=step) {
+        for (unsigned i = 0; i < POLY_SIDES; i+=step) {
             //define points cylinder
             poly2[i][0] = center2[0]
                         + poly0[i][0] * du2[0]
@@ -1142,7 +1142,7 @@ void Drawing::_draw_tube (Vect& begin, Vect& end,
             poly2[i][1] = center2[1]
                         + poly0[i][0] * du2[1]
                         + poly0[i][1] * dv2[1];
-            poly2[i][2] = clamp_depth( center2[2] + 
+            poly2[i][2] = clamp_depth( center2[2] +
                                      + poly0[i][0] * du2[2]
                                      + poly0[i][1] * dv2[2]);
             shade2[i]   = poly0[i][0] * du2[3]
@@ -1154,7 +1154,7 @@ void Drawing::_draw_tube (Vect& begin, Vect& end,
 
         //draw cylinder
         glBegin(GL_QUAD_STRIP);
-        for (int i = 0; i < POLY_SIDES; i+=step) {
+        for (unsigned i = 0; i < POLY_SIDES; i+=step) {
             glColor3fv(get_color(shade1[i]));  glVertex3fv(poly1[i]);
             glColor3fv(get_color(shade2[i]));  glVertex3fv(poly2[i]);
         }
@@ -1202,7 +1202,7 @@ void Drawing::_export_tube (Vect& begin, Vect& end,
             rad += coating / scale1;
             du1[0] *= rad; du1[1] *= rad; du1[2] *= rad;
             dv1[0] *= rad; dv1[1] *= rad; dv1[2] *= rad;
-            for (int i = 0; i < POLY_SIDES; i+=step) {
+            for (unsigned i = 0; i < POLY_SIDES; i+=step) {
                 //define points cylinder
                 for (int j = 0; j<3; ++j) {
                     poly1[i][j] = center[j]
@@ -1231,7 +1231,7 @@ void Drawing::_export_tube (Vect& begin, Vect& end,
         rad += coating / scale2;
         du2[0] *= rad; du2[1] *= rad; du2[2] *= rad;
         dv2[0] *= rad; dv2[1] *= rad; dv2[2] *= rad;
-        for (int i = 0; i < POLY_SIDES; i+=step) {
+        for (unsigned i = 0; i < POLY_SIDES; i+=step) {
             //define points cylinder
             for (int j = 0; j<3; ++j) {
                 poly2[i][j] = center2[j]
@@ -1242,7 +1242,7 @@ void Drawing::_export_tube (Vect& begin, Vect& end,
 
         //draw cylinder
         export_file->new_quad_strip();
-        for (int i = 0; i < POLY_SIDES; i+=step) {
+        for (unsigned i = 0; i < POLY_SIDES; i+=step) {
             export_file->new_segment(poly1[i], poly2[i]);
         }
         export_file->new_segment(poly1[0], poly2[0]);
@@ -1380,7 +1380,7 @@ void Drawing::_draw_face (int f)
                     project_face(corn, normal, corn2[n*T2+t]);
                 }
             }
-            
+
             //draw strips
             glBegin(GL_TRIANGLE_STRIP);
             for (int nt=0,NT=N*T2; nt<NT; ++nt) {
@@ -1433,7 +1433,7 @@ void Drawing::display_vertex (int v)
         }
         std::sort(ordered_lines, ordered_lines+deg);
     }
-    
+
     if (_drawing_edges) {
         //draw background lines
         for (int unordered_j = 0; unordered_j < deg; ++unordered_j) {
@@ -1471,11 +1471,10 @@ void Drawing::display_vertex (int v)
             }
         }
     }
-
     if (_drawing_verts) {
         Vect& c = centers[v];
         if ( radius < 0 or (not _clipping) or
-             ( (w_bound0 - radius <= c[0]) and (c[0] <= radius + w_bound1) 
+             ( (w_bound0 - radius <= c[0]) and (c[0] <= radius + w_bound1)
                 and
                (h_bound0 - radius <= c[1]) and (c[1] <= radius + h_bound1) ) ) {
             //draw circle
@@ -1558,7 +1557,7 @@ void Drawing::export_vertex (int v)
         }
         std::sort(ordered_lines, ordered_lines+deg);
     }
-    
+
     //draw background lines
     if (_drawing_edges) {
         for (int unordered_j = 0; unordered_j < deg; ++unordered_j) {
@@ -1620,7 +1619,7 @@ void Drawing::sort (void)
     if (ord_f and _drawing_faces) {
         cmp_f.update(centers_f);
         std::sort(sorted_f.begin(), sorted_f.end(), cmp_f);
-    }   
+    }
 }
 inline void Drawing::update_vertex (int v)
 {

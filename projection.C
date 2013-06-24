@@ -286,39 +286,24 @@ void Projector::display (char* output)
 #ifdef CAPTURE
 void Projector::_capture_little (char* image)
 {//capture buffer to little picture
-    logger.debug() << "capturing grayscale tile" |0;
     glPixelTransferf(GL_RED_BIAS,   0.0f);
     glPixelTransferf(GL_GREEN_BIAS, 0.0f);
     glPixelTransferf(GL_BLUE_BIAS,  0.0f);
     glPixelStorei(GL_PACK_ALIGNMENT, 1);
-
-    if (in_color) {
-        glPixelTransferf(GL_RED_SCALE,  1.0f);
-        glPixelTransferf(GL_GREEN_SCALE,1.0f);
-        glPixelTransferf(GL_BLUE_SCALE, 1.0f);
-        glFinish();
-        glReadPixels(0,0,w,h, GL_RGB, GL_UNSIGNED_BYTE, image);
-    } else {
-        if (high_quality) {
-            //slower; prevents antialiasing effects
-            glPixelTransferf(GL_RED_SCALE,  0.33333333f);
-            glPixelTransferf(GL_GREEN_SCALE,0.33333333f);
-            glPixelTransferf(GL_BLUE_SCALE, 0.33333333f);
-            glFinish();
-            glReadPixels(0,0,w,h, GL_LUMINANCE, GL_UNSIGNED_BYTE, image);
-        } else {
-            //faster; ends up with very fewer shades
-            glPixelTransferf(GL_RED_SCALE,  1.0f);
-            glPixelTransferf(GL_GREEN_SCALE,1.0f);
-            glPixelTransferf(GL_BLUE_SCALE, 1.0f);
-            glAccum(GL_LOAD, 1.0f);
-            glAccum(GL_RETURN, 0.3333333f);
-            glFinish();
-            glReadPixels(0,0,w,h, GL_LUMINANCE, GL_UNSIGNED_BYTE, image);
-            glAccum(GL_RETURN, 1.0f);
-        }
-    }
+    bool accumulating=(!in_color)&&(!high_quality);
+    float scale=(!in_color)&&high_quality?0.33333333f:1.0f;
+    glPixelTransferf(GL_RED_SCALE,scale);
+    glPixelTransferf(GL_GREEN_SCALE,scale);
+    glPixelTransferf(GL_BLUE_SCALE,scale);
+    if(accumulating){
+        glAccum(GL_LOAD, 1.0f);
+        glAccum(GL_RETURN, 0.3333333f);
+    };
+    glFinish();
+    glReadPixels(0,0,w,h, in_color?GL_RGB:GL_LUMINANCE, GL_UNSIGNED_BYTE, image);
+    if(accumulating) glAccum(GL_RETURN, 1.0f);
 }
+
 void Projector::capture (unsigned Nwide, unsigned Nhigh)
 {//captures, currently only grayscale
     logger.info() << "capturing " << Nwide << " x " << Nhigh << " screens in "
@@ -377,11 +362,14 @@ void Projector::capture (unsigned Nwide, unsigned Nhigh)
         glAccum(GL_RETURN, 1.0f);
 
         //copy to big picture
+        char* source=image;
+        int w_raw=color_bytes*w;
+        int w_tot_raw=color_bytes*w_tot;
+        char* dest=image_tot+w_tot_raw*h*j+w_raw*i;
         for (int y=0; y<h; ++y) {
-            char* source = image + color_bytes * (w*y);
-            char* dest = image_tot + color_bytes
-                                   * (w_tot * (h*j + y) + w*i);
-            memcpy(dest, source, w*color_bytes);
+            memcpy(dest, source, w_raw);
+            source+=w_raw;
+            dest+=w_tot_raw;
         }
     }}
     drawing->set_clipping(true); //clipping math fails for tiled images
