@@ -458,7 +458,7 @@ Graph::Graph(const int *cartan,
             const Word& edge = e_gens[w];
             os << "\n  ";
             for (unsigned t=0; t<edge.size(); ++t) {
-                unsigned j = edge[t];
+                int j = edge[t];
                 os << j;
                 Assert (0<=j and j<4,
                         "generator out of range: letter w["
@@ -476,7 +476,7 @@ Graph::Graph(const int *cartan,
             const Word& face = f_gens[w];
             os << "\n  ";
             for (unsigned t=0; t<face.size(); ++t) {
-                unsigned j = face[t];
+                int j = face[t];
                 os << j;
                 Assert (0<=j and j<4,
                         "generator out of range: letter w["

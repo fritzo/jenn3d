@@ -24,7 +24,7 @@ CXX = g++
 #OPT = -O3 -funroll-loops -pipe
 OPT = -O3 -ffast-math -fomit-frame-pointer -funroll-loops -pipe -s
 #OPT = -O3 -m32 -march=prescott -malign-double -mfpmath=sse -ffast-math -fomit-frame-pointer -funroll-loops -fprefetch-loop-arrays -ftree-vectorize -fno-exceptions -fno-check-new -pipe
-WARNINGS = -Wall
+WARNINGS = -Wall -Wextra -Werror -Wno-unused
 
 #opengl stuff
 GL_LINUX = -lglut -lGLU -lGL
