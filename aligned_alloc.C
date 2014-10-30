@@ -43,7 +43,7 @@ void* alloc_blocks (size_t blockSize, size_t numBlocks)
 {//allocates an aligned array, wraps posix_memalign
     logger.debug() << "Allocating " << numBlocks
                    << " blocks of size " << blockSize << 'B' |0;
-    Logging::IndentBlock block();
+    Logging::IndentBlock block;
 
     size_t alignment = roundDown(blockSize);
     size_t numBytes = blockSize * numBlocks;
@@ -64,14 +64,14 @@ void* alloc_blocks (size_t blockSize, size_t numBlocks)
 void free_blocks (void* base)
 {//just wraps free()
     logger.debug() << "Freeing blocks" |0;
-    Logging::IndentBlock block();
+    Logging::IndentBlock block;
 
     free(base);
 }
 void clear_block (void* base, size_t blockSize)
 {//sets data to zero, wraps memset
     LOG_DEBUG1( "Clearing block of size " << blockSize << 'B' )
-    Logging::IndentBlock block();
+    Logging::IndentBlock block;
 
     std::memset(base, 0, blockSize);
 }
@@ -79,7 +79,7 @@ void copy_blocks (void* destin_base, const void* source_base,
                   size_t blockSize, size_t numBlocks)
 {//justs wraps for memcpy
     LOG_DEBUG1( "Copying blocks" )
-    Logging::IndentBlock block();
+    Logging::IndentBlock block;
 
     memcpy (destin_base, source_base, blockSize * numBlocks);
 }

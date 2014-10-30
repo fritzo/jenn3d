@@ -33,7 +33,9 @@ typedef std::complex<float> complex;
     #define M_PI 3.1415926535897
 #endif
 
+namespace std {
 std::ostream& operator<< (std::ostream& os, const std::vector<int>& v);
+} // namespace std
 
 namespace LinAlg
 {

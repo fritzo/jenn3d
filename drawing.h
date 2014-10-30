@@ -106,6 +106,8 @@ class Drawing
     Vect farpoint[MAX_DEG];          //temporary far-point vector
     float w_val[MAX_DEG];
 
+    std::vector<std::pair<float,int> > ordered_lines;
+
     //drawing parameters
     float scale, q_scale;
     bool _grid_on;

@@ -19,11 +19,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #include "linalg.h"
 
+namespace std {
 std::ostream& operator<< (std::ostream& os, const std::vector<int>& v)
 {
     for (unsigned i=0; i<v.size(); ++i) os << v[i];
     return os;
 }
+} // namespace std
 
 using namespace LinAlg;
 

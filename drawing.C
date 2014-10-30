@@ -1411,7 +1411,7 @@ void Drawing::display_vertex (int v)
     int my_state = go.state(v);
 
     //update edges
-    std::pair<float,int> ordered_lines[deg];
+    ordered_lines.resize(deg);
     if (_drawing_edges) {
         float a0 = 2.0f - radius0, a1 = radius0;
         for (int j = 0; j < deg; ++j) {
@@ -1431,7 +1431,7 @@ void Drawing::display_vertex (int v)
             float z = contact[j][2] * proj(contact[j][3]);
             ordered_lines[j] = std::pair<float,int>(z,j);
         }
-        std::sort(ordered_lines, ordered_lines+deg);
+        std::sort(ordered_lines.begin(), ordered_lines.end());
     }
 
     if (_drawing_edges) {
@@ -1536,7 +1536,7 @@ void Drawing::export_vertex (int v)
     int my_state = go.state(v);
 
     //update edges
-    std::pair<float,int> ordered_lines[deg];
+    ordered_lines.resize(deg);
     if (_drawing_edges) {
         for (int j = 0; j < deg; ++j) {
             int v1 = graph.adj[v][j];
@@ -1555,7 +1555,7 @@ void Drawing::export_vertex (int v)
             float z = contact[j][2] * proj(contact[j][3]);
             ordered_lines[j] = std::pair<float,int>(z,j);
         }
-        std::sort(ordered_lines, ordered_lines+deg);
+        std::sort(ordered_lines.begin(), ordered_lines.end());
     }
 
     //draw background lines

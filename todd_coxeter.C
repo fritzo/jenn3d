@@ -560,7 +560,7 @@ Graph::Graph(const int *cartan,
     for (unsigned g=0; g<f_gens.size(); ++g) {
         const Word& face = f_gens[g];
         logger.debug() << "defining faces on " << face |0;
-        Logging::IndentBlock block();
+        Logging::IndentBlock block;
 
         //define basic face in group
         Ring basic(1,0);
