@@ -18,9 +18,6 @@ HAVE_PNG = true
 
 ######## leave everything else the same #######################################
 
-CC = g++
-CXX = g++
-
 #OPT = -O3 -funroll-loops -pipe
 OPT = -O3 -ffast-math -fomit-frame-pointer -funroll-loops -pipe -s
 #OPT = -O3 -m32 -march=prescott -malign-double -mfpmath=sse -ffast-math -fomit-frame-pointer -funroll-loops -fprefetch-loop-arrays -ftree-vectorize -fno-exceptions -fno-check-new -pipe
@@ -34,7 +31,7 @@ GL_CYGWIN = -lglut32 -lglu32 -lopengl32
 #png stuff
 ifdef HAVE_PNG
 	PNG_LINUX = -lpng
-	PNG_MAC = -L/sw/lib -lpng -lz
+	PNG_MAC = -L/sw/lib -L/usr/X11/lib -lpng -lz
 	PNG_CYGWIN = -L/usr/lib -lpng -lz
 	USR_CAPT = -DCAPTURE=4
 	DEV_CAPT = -DCAPTURE=24
@@ -48,42 +45,56 @@ endif
 
 #compiler flags
 ifeq ($(COMPILE_TYPE), mac)
-	CPPFLAGS = -I/sw/include -DDEBUG_LEVEL=0 -DMAC_HACKS $(USR_CAPT)
-	CXXFLAGS = $(OPT) -I/sw/include
-	LDFLAGS  = $(OPT) -L/sw/libs
+	CC = clang++
+	CXX = clang++
+	CPPFLAGS = -I/sw/include -I/usr/X11/include -DDEBUG_LEVEL=0 -DMAC_HACKS $(USR_CAPT)
+	CXXFLAGS = $(OPT) -I/sw/include -I/usr/X11/include -stdlib=libc++
+	LDFLAGS  = $(OPT) -L/sw/libs -L/usr/X11/lib -stdlib=libc++
 	LIBS = $(GL_MAC) $(PNG_MAC)
 endif
 ifeq ($(COMPILE_TYPE), mac_debug)
-	CPPFLAGS = -I/sw/include -DDEBUG_LEVEL=2 -DMAC_HACKS $(USR_CAPT)
-	CXXFLAGS = -I/sw/include -ggdb
-	LDFLAGS  = -L/sw/lib -rdynamic -ggdb
+	CC = clang++
+	CXX = clang++
+	CPPFLAGS = -I/sw/include -I/usr/X11/include -DDEBUG_LEVEL=2 -DMAC_HACKS $(USR_CAPT)
+	CXXFLAGS = -I/sw/include -I/usr/X11/include -stdlib=libc++ -ggdb
+	LDFLAGS  = -L/sw/lib -L/usr/X11/lib -stdlib=libc++ -rdynamic -ggdb
 	LIBS = $(GL_MAC) $(PNG_MAC)
 endif
 ifeq ($(COMPILE_TYPE), cygwin)
+	CC = g++
+	CXX = g++
 	CPPFLAGS = -I/usr/include -DDEBUG_LEVEL=0 -DCYGWIN_HACKS $(USR_CAPT)
 	CXXFLAGS = $(OPT) -I/usr/include
 	LDFLAGS  = $(OPT) -L/usr/lib
 	LIBS = $(GL_CYGWIN) $(PNG_CYGWIN)
 endif
 ifeq ($(COMPILE_TYPE), linux)
+	CC = g++
+	CXX = g++
 	CPPFLAGS = -DDEBUG_LEVEL=0 $(USR_CAPT)
 	CXXFLAGS = $(OPT)
 	LDFLAGS  = $(OPT)
 	LIBS = $(GL_LINUX) $(PNG_LINUX)
 endif
 ifeq ($(COMPILE_TYPE), debug)
+	CC = g++
+	CXX = g++
 	CPPFLAGS = -DDEBUG_LEVEL=2 $(DEV_CAPT)
 	CXXFLAGS = $(WARNINGS) -ggdb
 	LDFLAGS  = -rdynamic -ggdb
 	LIBS = $(GL_LINUX) $(PNG_LINUX)
 endif
 ifeq ($(COMPILE_TYPE), profile)
+	CC = g++
+	CXX = g++
 	CPPFLAGS = -DDEBUG_LEVEL=0 $(DEV_CAPT)
 	CXXFLAGS = -O2 -pg -ftest-coverage -fprofile-arcs
 	LDFLAGS  = -O2 -pg -ftest-coverage -fprofile-arcs
 	LIBS = $(GL_LINUX) $(PNG_LINUX)
 endif
 ifeq ($(COMPILE_TYPE), devel)
+	CC = g++
+	CXX = g++
 	CPPFLAGS = -DDEBUG_LEVEL=0 $(DEV_CAPT)
 	CXXFLAGS = $(OPT)
 	LDFLAGS  = $(OPT)
