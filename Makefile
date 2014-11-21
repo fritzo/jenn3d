@@ -49,7 +49,7 @@ ifeq ($(COMPILE_TYPE), mac)
 	CXX = clang++
 	CPPFLAGS = -I/sw/include -I/usr/X11/include -DDEBUG_LEVEL=0 -DMAC_HACKS $(USR_CAPT)
 	CXXFLAGS = $(OPT) -I/sw/include -I/usr/X11/include -stdlib=libc++
-	LDFLAGS  = $(OPT) -L/sw/libs -L/usr/X11/lib -stdlib=libc++
+	LDFLAGS  = $(OPT) -L/sw/libs -L/usr/X11/lib -stdlib=libc++ -static
 	LIBS = $(GL_MAC) $(PNG_MAC)
 endif
 ifeq ($(COMPILE_TYPE), mac_debug)
