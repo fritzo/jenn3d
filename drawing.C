@@ -335,8 +335,8 @@ Drawing::Drawing (ToddCoxeter::Graph* g)
 
     //define original polygon
     for (int i = 0; i<POLY_SIDES; ++i) {
-        poly0[i][0] = cos((2.0f*M_PI*i)/POLY_SIDES);
-        poly0[i][1] = sin((2.0f*M_PI*i)/POLY_SIDES);
+        poly0[i][0] = -sin((2.0f*M_PI*i)/POLY_SIDES);
+        poly0[i][1] =  cos((2.0f*M_PI*i)/POLY_SIDES);
     }
 
     //define original sphere
