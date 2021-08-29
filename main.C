@@ -22,10 +22,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #ifdef CYGWIN_HACKS
     #define GLUT_STATIC
 #endif
+
 #if defined(__APPLE__) && defined(__MACH__)
 #include <GLUT/glut.h>
 #else
 #include <GL/glut.h>
+#endif
+
+#ifdef __EMSCRIPTEN__
+#include <emscripten/bind.h>
+#define DISABLE_MENU
 #endif
 
 #include <cmath>
@@ -88,9 +94,11 @@ void mouse (int button, int state, int X, int Y)
         return;
     }
 
+#ifndef DISABLE_MENU
     //check for menu operation
     bool on_menu = Menus::Menu::mouse(button, state, X, Y);
     if (on_menu and state == GLUT_DOWN) return;
+#endif
 
     //start dragging
     bool first_down = (animator->drag_channels == 0);
@@ -328,7 +336,9 @@ void special_keys (int key, int, int)
 //displaying
 void finish_buffer ()
 {
+#ifndef DISABLE_MENU
     Menus::Menu::display();
+#endif
     glutSwapBuffers();
 }
 void update_title ()
@@ -340,7 +350,9 @@ void update_title ()
 void display () { projector->display(); }
 void reshape (int w, int h)
 {
+#ifndef DISABLE_MENU
     Menus::Menu::reshape(w, h);
+#endif
     projector->reshape(w, h);
 }
 
@@ -367,6 +379,10 @@ GlutManager::GlutManager (int *argc, char **argv,
     glutInit(argc,argv);
 
     //set display mode
+#ifdef __EMSCRIPTEN__
+    glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH
+                       | GLUT_MULTISAMPLE );
+#else
     glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH
                        | GLUT_ACCUM | GLUT_MULTISAMPLE );
     if (not glutGet(GLUT_DISPLAY_MODE_POSSIBLE)) {
@@ -374,6 +390,7 @@ GlutManager::GlutManager (int *argc, char **argv,
             << "bad display mode: some features may be unavailable" |0;
         glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH );
     }
+#endif
 
     //set window size
     glutInitWindowSize(init_width, init_height);
@@ -386,7 +403,9 @@ GlutManager::GlutManager (int *argc, char **argv,
 
     //startup
     init_callbacks();
+#ifndef DISABLE_MENU
     if (show_start_msg) Menus::start_menu();
+#endif
     glutMainLoop();
 }
 void GlutManager::init_callbacks ()
@@ -422,10 +441,15 @@ void GlutManager::init_callbacks ()
     //glDisable(GL_DITHER);
 
     drawing->update();
+#ifndef DISABLE_MENU
     Menus::RootMenu::open();
+#endif
 }
 void GlutManager::toggle_fullscreen ()
 {
+#ifdef __EMSCRIPTEN__
+  glutFullScreen();
+#else
     //  this does not seem to work:
     //if (not glutGameModeGet(GLUT_GAME_MODE_POSSIBLE)) {
     //    logger.info() << "fullscreen not available" |0;
@@ -446,7 +470,8 @@ void GlutManager::toggle_fullscreen ()
     }
 
     //this doesn't guarantee full-screen images.
-    //glutFullScreen(); 
+    //glutFullScreen();
+#endif
 }
 void toggle_fullscreen () { GM::toggle_fullscreen(); }
 
@@ -595,5 +620,30 @@ int main(int argc,char **argv)
     return 0;
 }
 
+#ifdef __EMSCRIPTEN__
+using namespace emscripten;
 
+#define BIND_MENU(name)                                                        \
+  class_<name>(#name).constructor<>().function("_call", &name::_call)
 
+namespace Menus {
+EMSCRIPTEN_BINDINGS(menu) {
+  function("select", &Polytope::select);
+
+  BIND_MENU(ViewMenu);
+  BIND_MENU(MotionMenu);
+  BIND_MENU(FlyingMenu);
+  BIND_MENU(StyleMenu);
+  BIND_MENU(ExportMenu);
+}
+} // namespace Menus
+
+namespace emscripten::internal {
+template <> void raw_destructor(Menus::ViewMenu *ptr) {}
+template <> void raw_destructor(Menus::MotionMenu *ptr) {}
+template <> void raw_destructor(Menus::FlyingMenu *ptr) {}
+template <> void raw_destructor(Menus::StyleMenu *ptr) {}
+template <> void raw_destructor(Menus::ExportMenu *ptr) {}
+} // namespace emscripten::internal
+
+#endif

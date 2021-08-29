@@ -1,0 +1,332 @@
+<!doctypehtml>
+<html lang=en-us>
+
+<head>
+    <meta charset=utf-8>
+    <meta content="text/html; charset=utf-8" http-equiv=Content-Type>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"></script>
+    <title>Jenn3d</title>
+
+    <style>
+        @media all and (min-width: 992px) {
+            .sidebar li {
+                position: relative;
+            }
+
+            .sidebar li .submenu {
+                display: none;
+                position: absolute;
+                left: 100%;
+                top: -7px;
+                min-width: 180px;
+            }
+
+            [dir=rtl] .sidebar li .submenu {
+                right: 100%;
+                left: auto;
+            }
+
+            .sidebar li:hover {
+                background: var(--bs-light);
+            }
+
+            .sidebar li:hover > .submenu {
+                display: block;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .sidebar .submenu,
+            .sidebar .dropdown-menu {
+                position: static !important;
+                margin-left: 0.7rem;
+                margin-right: 0.7rem;
+                margin-bottom: .5rem;
+            }
+        }
+
+        .sidebar .nav-link {
+            font-weight: 500;
+            color: var(--bs-dark);
+            cursor: pointer;
+        }
+
+        .sidebar .nav-link:hover {
+            background: var(--bs-light);
+            color: var(--bs-primary);
+        }
+    </style>
+
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function () {
+            // make it as accordion for smaller screens
+            if (window.innerWidth < 992) {
+                document.querySelectorAll('.sidebar .nav-link').forEach(function (element) {
+                    element.addEventListener('click', function (e) {
+                        let nextEl = element.nextElementSibling;
+                        if (nextEl && nextEl.classList.contains('submenu')) {
+                            e.preventDefault();
+                            if (nextEl.style.display === 'block') {
+                                nextEl.style.display = 'none';
+                            } else {
+                                nextEl.style.display = 'block';
+                            }
+                        }
+                    });
+                })
+            }
+        });
+    </script>
+</head>
+
+<body class="bg-light">
+
+
+<header class="section-header py-3">
+    <div class="container">
+        <h2><a href="https://jenn3d.org/">Jenn3d</a></h2>
+    </div>
+</header>
+
+<div class="container">
+    <section class="section-content py-3">
+        <div class="row">
+            <aside class="col-lg-2">
+                <nav class="sidebar card py-2 mb-4">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="modal" data-bs-target="#exampleModal">Help</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Model<b class="float-end">&raquo;</b></a>
+                            <ul class="submenu dropdown-menu" id="model-list"></ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">View<b class="float-end">&raquo;</b></a>
+                            <ul class="submenu dropdown-menu">
+                                <li><a class="nav-link" onclick="Module.viewMenu._call(0)">stereo/mono</a></li>
+                                <li><a class="nav-link" onclick="Module.viewMenu._call(1)">zoom out</a></li>
+                                <li><a class="nav-link" onclick="Module.viewMenu._call(2)">zoom in</a></li>
+                                <li><a class="nav-link" onclick="Module.viewMenu._call(3)">pan left</a></li>
+                                <li><a class="nav-link" onclick="Module.viewMenu._call(4)">pan right</a></li>
+                                <li><a class="nav-link" onclick="Module.viewMenu._call(5)">pan up</a></li>
+                                <li><a class="nav-link" onclick="Module.viewMenu._call(6)">pan down</a></li>
+                                <li><a class="nav-link" onclick="Module.viewMenu._call(7)">pan center</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Move<b class="float-end">&raquo;</b></a>
+                            <ul class="submenu dropdown-menu">
+                                <li><a class="nav-link" onclick="Module.motionMenu._call(0)">flip mouse</a></li>
+                                <li><a class="nav-link" onclick="Module.motionMenu._call(1)">drag on/off</a></li>
+                                <li><a class="nav-link" onclick="Module.motionMenu._call(2)">hi/lo drag</a></li>
+                                <li><a class="nav-link" onclick="Module.motionMenu._call(3)">springy</a></li>
+                                <li><a class="nav-link" onclick="Module.motionMenu._call(4)">flip spring</a></li>
+                                <li><a class="nav-link" onclick="Module.motionMenu._call(5)">tare spring</a></li>
+                                <li><a class="nav-link" onclick="Module.motionMenu._call(6)">slower</a></li>
+                                <li><a class="nav-link" onclick="Module.motionMenu._call(7)">faster</a></li>
+                                <li><a class="nav-link" onclick="Module.motionMenu._call(8)">reset</a></li>
+                                <li><a class="nav-link" onclick="Module.motionMenu._call(9)">pause</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Fly<b class="float-end">&raquo;</b></a>
+                            <ul class="submenu dropdown-menu">
+                                <li><a class="nav-link" onclick="Module.flyingMenu._call(0)">flying</a></li>
+                                <li><a class="nav-link" onclick="Module.flyingMenu._call(1)">forward</a></li>
+                                <li><a class="nav-link" onclick="Module.flyingMenu._call(2)">backward</a></li>
+                                <li><a class="nav-link" onclick="Module.flyingMenu._call(3)">trail line</a></li>
+                                <li><a class="nav-link" onclick="Module.flyingMenu._call(4)">trail ribbon</a></li>
+                                <li><a class="nav-link" onclick="Module.flyingMenu._call(5)">trail tube</a></li>
+                                <li><a class="nav-link" onclick="Module.flyingMenu._call(6)">break trail</a></li>
+                                <li><a class="nav-link" onclick="Module.flyingMenu._call(7)">pause trail</a></li>
+                                <li><a class="nav-link" onclick="Module.flyingMenu._call(8)">hide model</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Style<b class="float-end">&raquo;</b></a>
+                            <ul class="submenu dropdown-menu">
+                                <li><a class="nav-link" onclick="Module.styleMenu._call(0)">faces</a></li>
+                                <li><a class="nav-link" onclick="Module.styleMenu._call(1)">edges</a></li>
+                                <li><a class="nav-link" onclick="Module.styleMenu._call(2)">vertices</a></li>
+                                <li><a class="nav-link" onclick="Module.styleMenu._call(3)">line-art</a></li>
+                                <li><a class="nav-link" onclick="Module.styleMenu._call(4)">wireframe</a></li>
+                                <li><a class="nav-link" onclick="Module.styleMenu._call(5)">thinner</a></li>
+                                <li><a class="nav-link" onclick="Module.styleMenu._call(6)">fatter</a></li>
+                                <li><a class="nav-link" onclick="Module.styleMenu._call(7)">fog</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Camera<b class="float-end">&raquo;</b></a>
+                            <ul class="submenu dropdown-menu">
+                                <li><a class="nav-link" onclick="Module.cameraMenu._call(0)">hi/lo quality</a></li>
+                                <!--                                <li><a class="nav-link" onclick="Module.cameraMenu._call(1)">hi/lo contrast</a></li>-->
+                                <!--                                <li><a class="nav-link" onclick="Module.cameraMenu._call(2)">invert colors</a></li>-->
+                                <li><a class="nav-link" onclick="Module.cameraMenu._call(3)">motion blur</a></li>
+                                <li><a class="nav-link" onclick="Module.cameraMenu._call(4)">+ aperture</a></li>
+                                <li><a class="nav-link" onclick="Module.cameraMenu._call(5)">- aperture</a></li>
+                                <li><a class="nav-link" onclick="Module.cameraMenu._call(6)">focus nearer</a></li>
+                                <li><a class="nav-link" onclick="Module.cameraMenu._call(7)">focus farther</a></li>
+                                <li><a class="nav-link" onclick="Module.cameraMenu._call(8)">reset lens</a></li>
+                                <li><a class="nav-link" onclick="Module.cameraMenu._call(9)">shoot</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link">Export<b class="float-end">&raquo;</b></a>
+                            <ul class="submenu dropdown-menu">
+                                <li><a class="nav-link" onclick="Module.exportMenu._call(0)">export to STL</a></li>
+                                <li><a class="nav-link" onclick="Module.exportMenu._call(1)">toggle quality</a></li>
+                                <li><a class="nav-link" onclick="Module.exportMenu._call(2)">+ min thickness</a></li>
+                                <li><a class="nav-link" onclick="Module.exportMenu._call(3)">- min thickness</a></li>
+                                <li><a class="nav-link" onclick="Module.exportMenu._call(4)">export graph</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+            <main class="col-lg-10">
+                <canvas id=canvas tabindex=-1 style="height: 100%"></canvas>
+            </main>
+        </div>
+    </section>
+
+    <pre id="output"></pre>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Keyboard Shortcuts
+                    d  -  toggles drawing mode
+                    model
+                    F1-F12  -  selects a basic model
+                    SHIFT + F1-F12  -  select a complicated model
+                    view
+                    UP/DOWN  -  zooms in and out
+                    1/2  -  selects mono/stereo
+                    SHIFT+ARROW  -  pans image a little
+                    CTRL+ARROW  -  pans image one screen
+                    P  -  pans to center
+                    F  -  sets fullscreen
+                    move
+                    SPACEBAR/D  -  toggles brakes/drag
+                    m  -  swaps mouse axes (for 1- or 2-button mice)
+                    c/C  -  toggles spring/sets spring's center
+                    s/S  -  slows down/Speeds up
+                    x  -  resets motion
+                    flying
+                    y  -  toggles flying mode
+                    t  -  toggles ribbon trail
+                    T  -  breaks trail
+                    style
+                    v/e/f  -  toggles vertices/edges/faces
+                    +/-  -  thickens/thins edges
+                    w/l/h  -  toggles wireframe / line-art / haze
+                    camera
+                    q  -  toggles high/low quality
+                    b  -  toggles motion+depth blurring
+                    n/N  -  focuses lens nearer/farther
+                    a/A  -  shrinks/widens aperture
+                    K  -  toggles high-contrast
+                    r  -  reverses colors
+                    p  -  pauses (shoots picture)
+                    X  -  resets lens
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    const htmlToElement = (html) => {
+        const template = document.createElement('template');
+        template.innerHTML = html;
+        return template.content.firstChild;
+    }
+
+    const selectPolytope = (num) => {
+        Module.select(num, 1111, 111111, 1111)
+    }
+    const populateModel = () => {
+        const modelList = document.getElementById("model-list");
+        const modelTypes = Module.modelTypes.split("\n")
+        modelTypes.forEach((modelType, i) => {
+            const modelNames = Module.getModelNames(i).split("\n");
+            const submenu = modelNames.map((name, j) => {
+                const num = Module.getPolytopeNum(i, j);
+                return "<li><a class=\"nav-link\" onclick=\"selectPolytope(" + num + ")\">" + name + "</a></li>"
+            }).join("");
+            const elem = htmlToElement(
+                "<li><a class=\"nav-link\">" + modelType + "<b class=\"float-end\">&raquo;</b> </a>\n" +
+                "  <ul class=\"submenu dropdown-menu\">\n" +
+                submenu +
+                "  </ul>\n" +
+                "</li>"
+            );
+            modelList.insertAdjacentElement("beforeend", elem);
+        });
+
+        Module["viewMenu"] = new Module.ViewMenu();
+        Module["motionMenu"] = new Module.MotionMenu();
+        Module["flyingMenu"] = new Module.FlyingMenu();
+        Module["styleMenu"] = new Module.StyleMenu();
+        Module["cameraMenu"] = new Module.CameraMenu();
+        Module["exportMenu"] = new Module.ExportMenu();
+    }
+
+    let viewMenu = null;
+
+    setTimeout(populateModel, 1500)
+
+    var Module = {
+        preRun: [],
+        postRun: [],
+        print: (function () {
+            var element = document.getElementById('output');
+            if (element) element.value = ''; // clear browser cache
+            return function (text) {
+                if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                console.log(text);
+                if (element) {
+                    element.textContent += text + "\n";
+                    element.scrollTop = element.scrollHeight; // focus on bottom
+                }
+            };
+        })(),
+        printErr: function (e) {
+            arguments.length > 1 && (e = Array.prototype.slice.call(arguments).join(" ")), console.error(e)
+        },
+        canvas: function () {
+            var e = document.getElementById("canvas");
+            return e.addEventListener("webglcontextlost", (function (e) {
+                alert("WebGL context lost. You will need to reload the page."), e.preventDefault()
+            }), !1), e
+        }()
+    };
+
+    function saveFile(filename) {
+        var data = FS.readFile(filename);
+        var a = document.createElement('a');
+        var blob = new Blob([data], {'type': 'application/octet-stream'});
+        a.href = window.URL.createObjectURL(blob);
+        a.download = filename;
+        a.click();
+    }
+</script>
+<script async src=jenn3d.js></script>
+</body>
+
+</html>

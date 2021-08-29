@@ -151,7 +151,7 @@ public:
     void reproject (Mat& theta);
     void display ();    //using current projection
     void export_stl (); //using current projection
-    void export_graph () { graph.save(); }
+    void export_graph ();
     int select (float x,float y);
 private:
     int _num_segments (float w, float dist);

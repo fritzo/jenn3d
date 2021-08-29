@@ -150,6 +150,9 @@ protected:
 public:
     ExportMenu ();
     static void open ();
+#ifdef __EMSCRIPTEN__
+    friend struct EmscriptenBindingInitializer_menu;
+#endif
 };
 
 //motion
@@ -162,6 +165,9 @@ protected:
 public:
     MotionMenu ();
     static void open ();
+#ifdef __EMSCRIPTEN__
+    friend struct EmscriptenBindingInitializer_menu;
+#endif
 };
 
 //flying
@@ -174,6 +180,9 @@ protected:
 public:
     FlyingMenu ();
     static void open ();
+#ifdef __EMSCRIPTEN__
+    friend struct EmscriptenBindingInitializer_menu;
+#endif
 };
 
 //style
@@ -186,6 +195,9 @@ protected:
 public:
     StyleMenu ();
     static void open ();
+#ifdef __EMSCRIPTEN__
+    friend struct EmscriptenBindingInitializer_menu;
+#endif
 };
 
 //camera
@@ -198,6 +210,9 @@ protected:
 public:
     CameraMenu ();
     static void open ();
+#ifdef __EMSCRIPTEN__
+    friend struct EmscriptenBindingInitializer_menu;
+#endif
 };
 
 //view
@@ -210,6 +225,9 @@ protected:
 public:
     ViewMenu ();
     static void open ();
+#ifdef __EMSCRIPTEN__
+    friend struct EmscriptenBindingInitializer_menu;
+#endif
 };
 
 //families of polytopes

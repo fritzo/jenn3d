@@ -35,6 +35,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <algorithm>
 #include <fstream>
 
+#ifdef __EMSCRIPTEN__
+#include "emscripten/emscripten.h"
+#endif
+
 #ifndef INFINITY
 #define INFINITY 1.0e38f
 #endif
@@ -458,7 +462,20 @@ void Drawing::export_stl ()
     }
 
     delete export_file;
+
+#ifdef __EMSCRIPTEN__
+    EM_ASM(saveFile("jenn_export.stl"));
+#endif
 }
+
+void Drawing::export_graph () {
+  graph.save();
+
+#ifdef __EMSCRIPTEN__
+  EM_ASM(saveFile("jenn.graph"));
+#endif
+}
+
 int Drawing::select (float x,float y)
 {
     if (not _grid_on) return -1;
