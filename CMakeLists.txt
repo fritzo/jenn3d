@@ -7,11 +7,13 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-if (CMAKE_BUILD_TYPE EQUAL "DEBUG")
+if(CMAKE_BUILD_TYPE MATCHES Release)
+    message(STATUS "Release build")
+    set(CMAKE_CXX_FLAGS_RELEASE "-O3 -ffast-math -fomit-frame-pointer -funroll-loops -pipe -s")
+elseif(CMAKE_BUILD_TYPE MATCHES Debug)
+    message(STATUS "Debug build")
     add_compile_definitions(DEBUG_LEVEL=2)
 endif()
-
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -ffast-math -fomit-frame-pointer -funroll-loops -pipe")
 
 add_executable(${PROJECT_NAME}
         main.C main.h
