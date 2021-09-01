@@ -22,16 +22,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #ifdef CYGWIN_HACKS
     #define GLUT_STATIC
 #endif
-
 #if defined(__APPLE__) && defined(__MACH__)
 #include <GLUT/glut.h>
 #else
 #include <GL/glut.h>
-#endif
-
-#ifdef __EMSCRIPTEN__
-#include <emscripten/bind.h>
-#define DISABLE_MENU
 #endif
 
 #include <cmath>
@@ -83,6 +77,14 @@ void mouse (int button, int state, int X, int Y)
 {
     logger.debug() << "button " << button << " is in state " << state |0;
 
+
+#ifdef __EMSCRIPTEN__
+    //scrolling controls zoom
+    if ((button == SCROLL_UP || button == SCROLL_DOWN) && state == GLUT_DOWN) {
+        projector->zoom(button == SCROLL_UP ? ZOOM_OUT : ZOOM_IN);
+        return;
+    }
+#else
     //scrolling controls zoom
     if (button == SCROLL_UP) {
         if (state == GLUT_UP) projector->zoom(ZOOM_IN);
@@ -94,7 +96,6 @@ void mouse (int button, int state, int X, int Y)
         return;
     }
 
-#ifndef DISABLE_MENU
     //check for menu operation
     bool on_menu = Menus::Menu::mouse(button, state, X, Y);
     if (on_menu and state == GLUT_DOWN) return;
@@ -336,23 +337,21 @@ void special_keys (int key, int, int)
 //displaying
 void finish_buffer ()
 {
-#ifndef DISABLE_MENU
     Menus::Menu::display();
-#endif
     glutSwapBuffers();
 }
 void update_title ()
 {
+#ifndef __EMSCRIPTEN__
     static char title_string[256];
     sprintf(title_string, "Jenn. %.1f%%", 100.0 / animator->vis_rad);
     glutSetWindowTitle(title_string);
+#endif
 }
 void display () { projector->display(); }
 void reshape (int w, int h)
 {
-#ifndef DISABLE_MENU
     Menus::Menu::reshape(w, h);
-#endif
     projector->reshape(w, h);
 }
 
@@ -403,9 +402,7 @@ GlutManager::GlutManager (int *argc, char **argv,
 
     //startup
     init_callbacks();
-#ifndef DISABLE_MENU
     if (show_start_msg) Menus::start_menu();
-#endif
     glutMainLoop();
 }
 void GlutManager::init_callbacks ()
@@ -441,9 +438,7 @@ void GlutManager::init_callbacks ()
     //glDisable(GL_DITHER);
 
     drawing->update();
-#ifndef DISABLE_MENU
     Menus::RootMenu::open();
-#endif
 }
 void GlutManager::toggle_fullscreen ()
 {
@@ -470,7 +465,7 @@ void GlutManager::toggle_fullscreen ()
     }
 
     //this doesn't guarantee full-screen images.
-    //glutFullScreen();
+    //glutFullScreen(); 
 #endif
 }
 void toggle_fullscreen () { GM::toggle_fullscreen(); }
@@ -620,36 +615,5 @@ int main(int argc,char **argv)
     return 0;
 }
 
-#ifdef __EMSCRIPTEN__
-using namespace emscripten;
 
-#define BIND_MENU(name)                                                        \
-  class_<name>(#name).constructor<>().function("_call", &name::_call)
 
-namespace Menus {
-void select(int i, int j) {
-  static FamilyMenu* family_menu = new FamilyMenu();
-  family_menu->_call(i);
-  ModelMenu::s_unique_instance->_call(j);
-}
-
-EMSCRIPTEN_BINDINGS(menu) {
-  function("select", &select);
-
-  BIND_MENU(ViewMenu);
-  BIND_MENU(MotionMenu);
-  BIND_MENU(FlyingMenu);
-  BIND_MENU(StyleMenu);
-  BIND_MENU(ExportMenu);
-}
-} // namespace Menus
-
-namespace emscripten::internal {
-template <> void raw_destructor(Menus::ViewMenu *ptr) {}
-template <> void raw_destructor(Menus::MotionMenu *ptr) {}
-template <> void raw_destructor(Menus::FlyingMenu *ptr) {}
-template <> void raw_destructor(Menus::StyleMenu *ptr) {}
-template <> void raw_destructor(Menus::ExportMenu *ptr) {}
-} // namespace emscripten::internal
-
-#endif

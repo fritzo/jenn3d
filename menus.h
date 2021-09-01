@@ -93,6 +93,9 @@ public:
     static void display ();
     static bool mouse (int button, int state, int x, int y);
     static void reshape (int w, int h);
+#ifdef __EMSCRIPTEN__
+    friend void select(int i, int j, int k);
+#endif
 };
 
 //start message
@@ -150,9 +153,6 @@ protected:
 public:
     ExportMenu ();
     static void open ();
-#ifdef __EMSCRIPTEN__
-    friend struct EmscriptenBindingInitializer_menu;
-#endif
 };
 
 //motion
@@ -165,9 +165,6 @@ protected:
 public:
     MotionMenu ();
     static void open ();
-#ifdef __EMSCRIPTEN__
-    friend struct EmscriptenBindingInitializer_menu;
-#endif
 };
 
 //flying
@@ -180,9 +177,6 @@ protected:
 public:
     FlyingMenu ();
     static void open ();
-#ifdef __EMSCRIPTEN__
-    friend struct EmscriptenBindingInitializer_menu;
-#endif
 };
 
 //style
@@ -195,9 +189,6 @@ protected:
 public:
     StyleMenu ();
     static void open ();
-#ifdef __EMSCRIPTEN__
-    friend struct EmscriptenBindingInitializer_menu;
-#endif
 };
 
 //camera
@@ -210,9 +201,6 @@ protected:
 public:
     CameraMenu ();
     static void open ();
-#ifdef __EMSCRIPTEN__
-    friend struct EmscriptenBindingInitializer_menu;
-#endif
 };
 
 //view
@@ -225,9 +213,6 @@ protected:
 public:
     ViewMenu ();
     static void open ();
-#ifdef __EMSCRIPTEN__
-    friend struct EmscriptenBindingInitializer_menu;
-#endif
 };
 
 //families of polytopes
@@ -240,9 +225,6 @@ protected:
 public:
     FamilyMenu ();
     static void open ();
-#ifdef __EMSCRIPTEN__
-    friend void select(int i, int j);
-#endif
 };
 
 //individual polytopes
@@ -264,9 +246,6 @@ public:
                       const int* weights);
     static void open_fam (const char* prefix, int size, const int* nums);
     static void close ();
-#ifdef __EMSCRIPTEN__
-    friend void select(int i, int j);
-#endif
 };
 
 }
