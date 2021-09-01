@@ -198,37 +198,6 @@ void drift ()
     if (dt) animator->drift(dt);
     glutPostRedisplay();
 }
-const char * const key_message = 
-"                        Keyboard Shortcuts\n\
-    ESCAPE  -  exits Jenn\n\
-model\n\
-    F1-F12  -  select some basic models\n\
-    SHIFT + F1-F12  -  select some complicated models\n\
-view\n\
-    UP,DOWN  -  zoom in and out\n\
-    1,2  -  select mono/stereo\n\
-    SHIFT+UP,DOWN,LEFT,RIGHT  -  pan image a little\n\
-    CTRL+UP,DOWN,LEFT,RIGHT  -  pan image by an entire screen\n\
-    F  -  sets fullscreen\n\
-move\n\
-    SPACEBAR  -  toggles brakes\n\
-    c/C  -  toggles spring/sets spring's center\n\
-    s/S  -  slows down/Speeds up\n\
-    D  -  toggles drag\n\
-    y  -  toggles flying mode\n\
-style\n\
-    v/e/f  -  toggles vertices/edges/faces\n\
-    w  -  toggles wireframe\n\
-    h  -  toggles line-art style\n\
-camera\n\
-    q  -  toggles high/low quality\n\
-    b  -  toggles motion/depth blurring\n\
-    n/N  -  focuses lense nearer/farther\n\
-    a/A  -  shrinks/widens aperture\n\
-    p  -  pauses (shoots picture)\n\
-exporting\n\
-    g - exports geometry to .stl file\n\
-    G - exports graph to .graph file";
 void keyboard (unsigned char key, int w_x, int w_y)
 {
     switch (key) {
