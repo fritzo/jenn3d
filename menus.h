@@ -240,6 +240,9 @@ protected:
 public:
     FamilyMenu ();
     static void open ();
+#ifdef __EMSCRIPTEN__
+    friend void select(int i, int j);
+#endif
 };
 
 //individual polytopes
@@ -261,6 +264,9 @@ public:
                       const int* weights);
     static void open_fam (const char* prefix, int size, const int* nums);
     static void close ();
+#ifdef __EMSCRIPTEN__
+    friend void select(int i, int j);
+#endif
 };
 
 }

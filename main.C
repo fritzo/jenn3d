@@ -627,8 +627,14 @@ using namespace emscripten;
   class_<name>(#name).constructor<>().function("_call", &name::_call)
 
 namespace Menus {
+void select(int i, int j) {
+  static FamilyMenu* family_menu = new FamilyMenu();
+  family_menu->_call(i);
+  ModelMenu::s_unique_instance->_call(j);
+}
+
 EMSCRIPTEN_BINDINGS(menu) {
-  function("select", &Polytope::select);
+  function("select", &select);
 
   BIND_MENU(ViewMenu);
   BIND_MENU(MotionMenu);
