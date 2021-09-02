@@ -9,10 +9,10 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
           integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
           crossorigin="anonymous"></script>
-  <title>Jenn3d</title>
+  <title>Jenn3D</title>
 
   <style>
-    @media all and (min-width: 992px) {
+    @media all and (min-width: 1200px) {
       .sidebar li { position: relative; }
 
       .sidebar li .submenu {
@@ -20,13 +20,13 @@
         position: absolute;
         left: 100%;
         top: -7px;
-        min-width: 200px;
+        width: max-content;
       }
 
       .sidebar li:hover > .submenu { display: block; }
     }
 
-    @media (max-width: 991px) {
+    @media (max-width: 1199px) {
       .sidebar .submenu, .sidebar .dropdown-menu {
         position: static !important;
         margin-left: 0.7rem; margin-right: 0.7rem; margin-bottom: .5rem;
@@ -41,7 +41,7 @@
   <script type="text/javascript">
     document.addEventListener("DOMContentLoaded", function () {
       // make it as accordion for smaller screens
-      if (window.innerWidth < 992) {
+      if (window.innerWidth < 1200) {
         document.querySelectorAll('.sidebar .dropdown-item').forEach(function (element) {
           element.addEventListener('click', function (e) {
             let nextEl = element.nextElementSibling;
@@ -60,703 +60,743 @@
   </script>
 </head>
 
-<body class="bg-light">
+<body class="container">
 
-<header class="section-header py-3">
-  <div class="container">
-    <h2><a href="https://jenn3d.org/">Jenn3d</a></h2>
+<header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
+  <div class="d-flex align-items-center col-md-auto mb-2 mb-md-0">
+    <h2><a href="https://jenn3d.org/" class="text-dark text-decoration-none">
+      Jenn3D
+    </a></h2>
+    <div class="ps-3">
+      for visualizing 4D Coxeter polytopes
+    </div>
   </div>
+
+  <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
+    <li><a href="https://jenn3d.org/" class="nav-link px-2 link-dark">Homepage</a></li>
+    <li><a href="https://github.com/fritzo/jenn3d" class="nav-link px-2 link-dark">GitHub</a></li>
+  </ul>
+
+
 </header>
 
-<div class="container">
-  <section class="section-content py-3">
-    <div class="row">
-      <aside class="col-lg-2">
-        <nav class="sidebar card py-2 mb-4">
-          <ul class="nav flex-column">
+<div class="row">
+  <aside class="col-xl-2">
+    <nav class="sidebar card py-2 mb-4">
+      <ul class="nav flex-column">
+        <li>
+          <a class="dropdown-item">Model<span class="float-end ms-2">»</span></a>
+          <ul class="submenu dropdown-menu">
             <li>
-              <a class="dropdown-item">Model<span class="float-end">»</span></a>
+              <a class="dropdown-item">polyhedra<span class="float-end ms-2">»</span></a>
               <ul class="submenu dropdown-menu">
-                <li>
-                  <a class="dropdown-item">polyhedra<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 0, 0)">tetrahedron</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 0, 1)">cube</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 0, 2)">octahedron</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 0, 3)">dodecahedron</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 0, 4)">icosahedron</li>
-                  </ul>
+                <li class="dropdown-item" onclick="Module.select(1, 0, 0)">tetrahedron</li>
+                <li class="dropdown-item" onclick="Module.select(1, 0, 1)">cube</li>
+                <li class="dropdown-item" onclick="Module.select(1, 0, 2)">octahedron</li>
+                <li class="dropdown-item" onclick="Module.select(1, 0, 3)">dodecahedron</li>
+                <li class="dropdown-item" onclick="Module.select(1, 0, 4)">icosahedron</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">polychora<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 1, 0)">
+                  5-cell
+                  <span class="float-end badge bg-light text-muted ms-3">F1</span>
                 </li>
-                <li>
-                  <a class="dropdown-item">polychora<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 1, 0)">
-                      5-cell
-                      <span class="float-end badge bg-light text-muted">F1</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 1, 1)">
-                      8-cell
-                      <span class="float-end badge bg-light text-muted">F2</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 1, 2)">
-                      16-cell
-                      <span class="float-end badge bg-light text-muted">F3</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 1, 3)">
-                      24-cell
-                      <span class="float-end badge bg-light text-muted">F4</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 1, 4)">
-                      120-cell
-                      <span class="float-end badge bg-light text-muted">F5</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 1, 5)">
-                      600-cell
-                      <span class="float-end badge bg-light text-muted">F6</span>
-                    </li>
-                  </ul>
+                <li class="dropdown-item" onclick="Module.select(1, 1, 1)">
+                  8-cell
+                  <span class="float-end badge bg-light text-muted ms-3">F2</span>
                 </li>
-                <li>
-                  <a class="dropdown-item">duoprisms<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 2, 0)"> 3x3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 2, 1)"> 4x4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 2, 2)"> 4x5</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 2, 3)"> 4x6</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 2, 4)"> 5x5</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 2, 5)"> 4x10</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 2, 6)">12x12</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 2, 7)">
-                      18x18
-                      <span class="float-end badge bg-light text-muted">F7</span>
-                    </li>
-                  </ul>
+                <li class="dropdown-item" onclick="Module.select(1, 1, 2)">
+                  16-cell
+                  <span class="float-end badge bg-light text-muted ms-3">F3</span>
                 </li>
-                <li>
-                  <a class="dropdown-item">truncated `hedra<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 3, 0)">t. tetra.</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 3, 1)">t. cube</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 3, 2)">t. octa.</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 3, 3)">t. dodeca.</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 3, 4)">t. icosa.</li>
-                  </ul>
+                <li class="dropdown-item" onclick="Module.select(1, 1, 3)">
+                  24-cell
+                  <span class="float-end badge bg-light text-muted ms-3">F4</span>
                 </li>
-                <li>
-                  <a class="dropdown-item">truncated `chora<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 4, 0)">t. 5-cell</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 4, 1)">t. 16-cell</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 4, 2)">t. 8-cell</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 4, 3)">t. 24-cell</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 4, 4)">
-                      t. 120-cell
-                      <span class="float-end badge bg-light text-muted">Shift + F3</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 4, 5)">t. 600-cell</li>
-                  </ul>
+                <li class="dropdown-item" onclick="Module.select(1, 1, 4)">
+                  120-cell
+                  <span class="float-end badge bg-light text-muted ms-3">F5</span>
                 </li>
-                <li>
-                  <a class="dropdown-item">bitrunc. `chora<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 5, 0)">bt.. 5-cell</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 5, 1)">bt. 8-cell</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 5, 2)">bt. 24-cell</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 5, 3)">
-                      bt. 120-cell
-                      <span class="float-end badge bg-light text-muted">Shift + F6</span>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">edge-t. `hedra<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 6, 0)">e.t. tetra.</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 6, 1)">e.t. octa.</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 6, 2)">e.t. cube</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 6, 3)">e.t. dodeca.</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 6, 4)">e.t. icosa.</li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">edge-t. `chora<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 7, 0)">e.t. 5-cell</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 7, 1)">e.t. 8-cell</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 7, 2)">e.t. 16-cell</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 7, 3)">e.t. 24-cell</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 7, 4)">
-                      e.t. 120-cell
-                      <span class="float-end badge bg-light text-muted">Shift + F4</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 7, 5)">e.t. 600-cell</li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">cayley graphs<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 8, 0)">2-2-2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 8, 1)">2-2-3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 8, 2)">2-2-5</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 8, 3)">2-2-9</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 8, 4)">2-3-3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 8, 5)">2-3-4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 8, 6)">2-3-5</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 8, 7)">
-                      3-3-3
-                      <span class="float-end badge bg-light text-muted">F8</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 8, 8)">
-                      Y
-                      <span class="float-end badge bg-light text-muted">F9</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 8, 9)">
-                      3-3-4
-                      <span class="float-end badge bg-light text-muted">F10</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 8, 10)">
-                      3-4-3
-                      <span class="float-end badge bg-light text-muted">F11</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 8, 11)">
-                      3-3-5
-                      <span class="float-end badge bg-light text-muted">F12</span>
-                    </li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">solids<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 9, 0)">torus</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 9, 1)">cubes</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 9, 2)">8-hedra</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 9, 3)">12-hedra</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 9, 4)">20-hedra</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 9, 5)">4-hedra</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 9, 6)">6-prisms</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 9, 7)">8-prisms</li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">mazes<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 10, 0)">{3,5}</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 10, 1)">{3,3,3}</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 10, 2)">{3,3,4}</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 10, 3)">{3,4,3}</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 10, 4)">{3,3,5}a</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 10, 5)">{3,3,5}b</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 10, 6)">{3,3,5}c</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 10, 7)">{3,3,5}d</li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">222-family<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 0)">2-2-2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 1)"> 1</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 2)"> 2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 3)"> 3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 4)"> 4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 5)"> 1,2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 6)"> 1,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 7)"> 1,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 8)"> 2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 9)"> 2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 10)"> 3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 11)">1,2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 12)">1,2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 13)">1,3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 11, 14)">2,3,4</li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">227-family<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 0)">2-2-7</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 1)"> 1</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 2)"> 2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 3)"> 3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 4)"> 4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 5)"> 1,2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 6)"> 1,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 7)"> 1,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 8)"> 2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 9)"> 2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 10)"> 3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 11)">1,2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 12)">1,2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 13)">1,3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 12, 14)">2,3,4</li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">233-family<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 0)">2-3-3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 1)"> 1</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 2)"> 2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 3)"> 3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 4)"> 4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 5)"> 1,2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 6)"> 1,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 7)"> 1,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 8)"> 2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 9)"> 2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 10)"> 3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 11)">1,2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 12)">1,2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 13)">1,3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 13, 14)">2,3,4</li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">234-family<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 0)">2-3-4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 1)"> 1</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 2)"> 2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 3)"> 3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 4)"> 4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 5)"> 1,2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 6)"> 1,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 7)"> 1,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 8)"> 2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 9)"> 2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 10)"> 3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 11)">1,2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 12)">1,2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 13)">1,3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 14, 14)">2,3,4</li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">235-family<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 0)">2-3-5</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 1)"> 1</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 2)"> 2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 3)"> 3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 4)"> 4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 5)"> 1,2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 6)"> 1,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 7)"> 1,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 8)"> 2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 9)"> 2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 10)"> 3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 11)">1,2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 12)">1,2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 13)">1,3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 15, 14)">2,3,4</li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item"> Y-family<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 0)"> Y</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 1)"> 1</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 2)"> 2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 3)"> 3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 4)"> 4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 5)"> 1,2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 6)"> 1,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 7)"> 1,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 8)"> 2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 9)"> 2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 10)"> 3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 11)">1,2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 12)">1,2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 13)">1,3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 16, 14)">2,3,4</li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">333-family<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 0)">3-3-3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 1)"> 1</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 2)"> 2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 3)"> 3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 4)"> 4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 5)"> 1,2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 6)"> 1,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 7)"> 1,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 8)"> 2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 9)"> 2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 10)"> 3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 11)">1,2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 12)">1,2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 13)">1,3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 17, 14)">2,3,4</li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">334-family<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 0)">3-3-4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 1)"> 1</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 2)"> 2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 3)"> 3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 4)"> 4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 5)"> 1,2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 6)"> 1,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 7)"> 1,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 8)"> 2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 9)"> 2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 10)"> 3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 11)">1,2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 12)">1,2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 13)">1,3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 18, 14)">2,3,4</li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">343-family<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 0)">3-4-3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 1)"> 1</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 2)"> 2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 3)"> 3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 4)"> 4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 5)"> 1,2</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 6)"> 1,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 7)"> 1,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 8)"> 2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 9)"> 2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 10)"> 3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 11)">1,2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 12)">1,2,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 13)">1,3,4</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 19, 14)">2,3,4</li>
-                  </ul>
-                </li>
-                <li>
-                  <a class="dropdown-item">335-family<span class="float-end">»</span></a>
-                  <ul class="submenu dropdown-menu">
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 0)">3-3-5</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 1)">
-                      1
-                      <span class="float-end badge bg-light text-muted">Shift + F12</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 2)">
-                      2
-                      <span class="float-end badge bg-light text-muted">Shift + F11</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 3)">
-                      3
-                      <span class="float-end badge bg-light text-muted">Shift + F10</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 4)">
-                      4
-                      <span class="float-end badge bg-light text-muted">Shift + F9</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 5)">
-                      1,2
-                      <span class="float-end badge bg-light text-muted">Shift + F8</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 6)">
-                      1,3
-                      <span class="float-end badge bg-light text-muted">Shift + F7</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 7)">
-                      1,4
-                      <span class="float-end badge bg-light text-muted">Shift + F6</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 8)">
-                      2,3
-                      <span class="float-end badge bg-light text-muted">Shift + F5</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 9)">
-                      2,4
-                      <span class="float-end badge bg-light text-muted">Shift + F4</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 10)">
-                      3,4
-                      <span class="float-end badge bg-light text-muted">Shift + F3</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 11)">1,2,3</li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 12)">
-                      1,2,4
-                      <span class="float-end badge bg-light text-muted">Shift + F2</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 13)">
-                      1,3,4
-                      <span class="float-end badge bg-light text-muted">Shift + F1</span>
-                    </li>
-                    <li class="dropdown-item" onclick="Module.select(1, 20, 14)">2,3,4</li>
-                  </ul>
+                <li class="dropdown-item" onclick="Module.select(1, 1, 5)">
+                  600-cell
+                  <span class="float-end badge bg-light text-muted ms-3">F6</span>
                 </li>
               </ul>
             </li>
             <li>
-              <hr class="dropdown-divider">
-            </li>
-            <li>
-              <a class="dropdown-item">View<b class="float-end">&raquo;</b></a>
+              <a class="dropdown-item">duoprisms<span class="float-end ms-2">»</span></a>
               <ul class="submenu dropdown-menu">
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="toggle between mono and stereo"
-                    onclick="Module.select(2, 0, -1)">
-                  stereo/mono
-                  <span class="float-end badge bg-light text-muted">1/2</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="see the model farther away"
-                    onclick="Module.select(2, 1, -1)">
-                  zoom out
-                  <span class="float-end badge bg-light text-muted">&darr;</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="see the model closer up"
-                    onclick="Module.select(2, 2, -1)">
-                  zoom in
-                  <span class="float-end badge bg-light text-muted">&uarr;</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="move the camera to the left"
-                    onclick="Module.select(2, 3, -1)">
-                  pan left
-                  <span class="float-end badge bg-light text-muted">Shift + &larr;</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="move the camera to the right"
-                    onclick="Module.select(2, 4, -1)">
-                  pan right
-                  <span class="float-end badge bg-light text-muted">Shift + &rarr;</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="move the camera up"
-                    onclick="Module.select(2, 5, -1)">
-                  pan up
-                  <span class="float-end badge bg-light text-muted">Shift + &uarr;</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="move the camera down"
-                    onclick="Module.select(2, 6, -1)">
-                  pan down
-                  <span class="float-end badge bg-light text-muted">Shift + &darr;</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="adjust the camera to the center of the model"
-                    onclick="Module.select(2, 7, -1)">
-                  pan center
-                  <span class="float-end badge bg-light text-muted">P</span>
+                <li class="dropdown-item" onclick="Module.select(1, 2, 0)"> 3x3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 2, 1)"> 4x4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 2, 2)"> 4x5</li>
+                <li class="dropdown-item" onclick="Module.select(1, 2, 3)"> 4x6</li>
+                <li class="dropdown-item" onclick="Module.select(1, 2, 4)"> 5x5</li>
+                <li class="dropdown-item" onclick="Module.select(1, 2, 5)"> 4x10</li>
+                <li class="dropdown-item" onclick="Module.select(1, 2, 6)">12x12</li>
+                <li class="dropdown-item" onclick="Module.select(1, 2, 7)">
+                  18x18
+                  <span class="float-end badge bg-light text-muted ms-3">F7</span>
                 </li>
               </ul>
             </li>
             <li>
-              <a class="dropdown-item">Move<b class="float-end">&raquo;</b></a>
+              <a class="dropdown-item">truncated `hedra<span class="float-end ms-2">»</span></a>
               <ul class="submenu dropdown-menu">
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="if you have a 1- or 2- button mouse, you can switch mouse channels"
-                    onclick="Module.select(3, 0, -1)">
-                  flip mouse
-                  <span class="float-end badge bg-light text-muted">m</span>
+                <li class="dropdown-item" onclick="Module.select(1, 3, 0)">t. tetra.</li>
+                <li class="dropdown-item" onclick="Module.select(1, 3, 1)">t. cube</li>
+                <li class="dropdown-item" onclick="Module.select(1, 3, 2)">t. octa.</li>
+                <li class="dropdown-item" onclick="Module.select(1, 3, 3)">t. dodeca.</li>
+                <li class="dropdown-item" onclick="Module.select(1, 3, 4)">t. icosa.</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">truncated `chora<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 4, 0)">t. 5-cell</li>
+                <li class="dropdown-item" onclick="Module.select(1, 4, 1)">t. 16-cell</li>
+                <li class="dropdown-item" onclick="Module.select(1, 4, 2)">t. 8-cell</li>
+                <li class="dropdown-item" onclick="Module.select(1, 4, 3)">t. 24-cell</li>
+                <li class="dropdown-item" onclick="Module.select(1, 4, 4)">
+                  t. 120-cell
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F3</span>
                 </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="toggle drifting"
-                    onclick="Module.select(3, 1, -1)">
-                  drag on/off
-                  <span class="float-end badge bg-light text-muted">D</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="toggle the high/low drag to let the model float around freely"
-                    onclick="Module.select(3, 2, -1)">
-                  hi/lo drag
-                  <span class="float-end badge bg-light text-muted">SPACE</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="make the model spring to the center"
-                    onclick="Module.select(3, 3, -1)">
-                  springy
-                  <span class="float-end badge bg-light text-muted">c</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="invert the spring"
-                    onclick="Module.select(3, 4, -1)">
-                  flip spring
-                  <span class="float-end badge bg-light text-muted">i</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="set the springs center"
-                    onclick="Module.select(3, 5, -1)">
-                  tare spring
-                  <span class="float-end badge bg-light text-muted">C</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="slow down movement"
-                    onclick="Module.select(3, 6, -1)">
-                  slower
-                  <span class="float-end badge bg-light text-muted">s</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="speed up movement"
-                    onclick="Module.select(3, 7, -1)">
-                  faster
-                  <span class="float-end badge bg-light text-muted">S</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="reset motion"
-                    onclick="Module.select(3, 8, -1)">
-                  reset
-                  <span class="float-end badge bg-light text-muted">x</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="toggle pause"
-                    onclick="Module.select(3, 9, -1)">
-                  pause
-                  <span class="float-end badge bg-light text-muted">p</span>
+                <li class="dropdown-item" onclick="Module.select(1, 4, 5)">t. 600-cell</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">bitrunc. `chora<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 5, 0)">bt.. 5-cell</li>
+                <li class="dropdown-item" onclick="Module.select(1, 5, 1)">bt. 8-cell</li>
+                <li class="dropdown-item" onclick="Module.select(1, 5, 2)">bt. 24-cell</li>
+                <li class="dropdown-item" onclick="Module.select(1, 5, 3)">
+                  bt. 120-cell
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F6</span>
                 </li>
               </ul>
             </li>
             <li>
-              <a class="dropdown-item">Fly<b class="float-end">&raquo;</b></a>
+              <a class="dropdown-item">edge-t. `hedra<span class="float-end ms-2">»</span></a>
               <ul class="submenu dropdown-menu">
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="fly through a model"
-                    onclick="Module.select(4, 0, -1)">
-                  flying
-                  <span class="float-end badge bg-light text-muted">y</span>
+                <li class="dropdown-item" onclick="Module.select(1, 6, 0)">e.t. tetra.</li>
+                <li class="dropdown-item" onclick="Module.select(1, 6, 1)">e.t. octa.</li>
+                <li class="dropdown-item" onclick="Module.select(1, 6, 2)">e.t. cube</li>
+                <li class="dropdown-item" onclick="Module.select(1, 6, 3)">e.t. dodeca.</li>
+                <li class="dropdown-item" onclick="Module.select(1, 6, 4)">e.t. icosa.</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">edge-t. `chora<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 7, 0)">e.t. 5-cell</li>
+                <li class="dropdown-item" onclick="Module.select(1, 7, 1)">e.t. 8-cell</li>
+                <li class="dropdown-item" onclick="Module.select(1, 7, 2)">e.t. 16-cell</li>
+                <li class="dropdown-item" onclick="Module.select(1, 7, 3)">e.t. 24-cell</li>
+                <li class="dropdown-item" onclick="Module.select(1, 7, 4)">
+                  e.t. 120-cell
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F4</span>
                 </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="accelerate forward"
-                    onclick="Module.select(4, 1, -1)">
-                  forward
+                <li class="dropdown-item" onclick="Module.select(1, 7, 5)">e.t. 600-cell</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">cayley graphs<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 8, 0)">2-2-2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 8, 1)">2-2-3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 8, 2)">2-2-5</li>
+                <li class="dropdown-item" onclick="Module.select(1, 8, 3)">2-2-9</li>
+                <li class="dropdown-item" onclick="Module.select(1, 8, 4)">2-3-3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 8, 5)">2-3-4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 8, 6)">2-3-5</li>
+                <li class="dropdown-item" onclick="Module.select(1, 8, 7)">
+                  3-3-3
+                  <span class="float-end badge bg-light text-muted ms-3">F8</span>
                 </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="accelerate backward"
-                    onclick="Module.select(4, 2, -1)">
-                  backward
+                <li class="dropdown-item" onclick="Module.select(1, 8, 8)">
+                  Y
+                  <span class="float-end badge bg-light text-muted ms-3">F9</span>
                 </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="leave a trail line"
-                    onclick="Module.select(4, 3, -1)">
-                  trail line
+                <li class="dropdown-item" onclick="Module.select(1, 8, 9)">
+                  3-3-4
+                  <span class="float-end badge bg-light text-muted ms-3">F10</span>
                 </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="leave a trail ribbon"
-                    onclick="Module.select(4, 4, -1)">
-                  trail ribbon
-                  <span class="float-end badge bg-light text-muted">t</span>
+                <li class="dropdown-item" onclick="Module.select(1, 8, 10)">
+                  3-4-3
+                  <span class="float-end badge bg-light text-muted ms-3">F11</span>
                 </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="leave a trail tube"
-                    onclick="Module.select(4, 5, -1)">
-                  trail tube
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="break a trail or start a new trail"
-                    onclick="Module.select(4, 6, -1)">
-                  break trail
-                  <span class="float-end badge bg-light text-muted">T</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="pause trail"
-                    onclick="Module.select(4, 7, -1)">
-                  pause trail
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="toggle between hiding and displaying the model"
-                    onclick="Module.select(4, 8, -1)">
-                  hide model
+                <li class="dropdown-item" onclick="Module.select(1, 8, 11)">
+                  3-3-5
+                  <span class="float-end badge bg-light text-muted ms-3">F12</span>
                 </li>
               </ul>
             </li>
             <li>
-              <a class="dropdown-item">Style<b class="float-end">&raquo;</b></a>
+              <a class="dropdown-item">solids<span class="float-end ms-2">»</span></a>
               <ul class="submenu dropdown-menu">
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="toggle faces"
-                    onclick="Module.select(5, 0, -1)">
-                  faces
-                  <span class="float-end badge bg-light text-muted">f</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="toggle edges"
-                    onclick="Module.select(5, 1, -1)">
-                  edges
-                  <span class="float-end badge bg-light text-muted">e</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="toggle vertices"
-                    onclick="Module.select(5, 2, -1)">
-                  vertices
-                  <span class="float-end badge bg-light text-muted">v</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="very large models may look better in line-art style"
-                    onclick="Module.select(5, 3, -1)">
-                  line-art
-                  <span class="float-end badge bg-light text-muted">h</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="toggle wireframe style"
-                    onclick="Module.select(5, 4, -1)">
-                  wireframe
-                  <span class="float-end badge bg-light text-muted">w</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title=""
-                    onclick="Module.select(5, 5, -1)">
-                  thinner
-                  <span class="float-end badge bg-light text-muted">-</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title=""
-                    onclick="Module.select(5, 6, -1)">
-                  fatter
-                  <span class="float-end badge bg-light text-muted">+</span>
-                </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title=""
-                    onclick="Module.select(5, 7, -1)">
-                  fog
-                  <span class="float-end badge bg-light text-muted">H</span>
-                </li>
+                <li class="dropdown-item" onclick="Module.select(1, 9, 0)">torus</li>
+                <li class="dropdown-item" onclick="Module.select(1, 9, 1)">cubes</li>
+                <li class="dropdown-item" onclick="Module.select(1, 9, 2)">8-hedra</li>
+                <li class="dropdown-item" onclick="Module.select(1, 9, 3)">12-hedra</li>
+                <li class="dropdown-item" onclick="Module.select(1, 9, 4)">20-hedra</li>
+                <li class="dropdown-item" onclick="Module.select(1, 9, 5)">4-hedra</li>
+                <li class="dropdown-item" onclick="Module.select(1, 9, 6)">6-prisms</li>
+                <li class="dropdown-item" onclick="Module.select(1, 9, 7)">8-prisms</li>
               </ul>
             </li>
             <li>
-              <a class="dropdown-item">Export<b class="float-end">&raquo;</b></a>
+              <a class="dropdown-item">mazes<span class="float-end ms-2">»</span></a>
               <ul class="submenu dropdown-menu">
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="exports geometry to the file jenn_export.stl"
-                    onclick="Module.select(7, 0, -1)">
-                  export to STL
-                  <span class="float-end badge bg-light text-muted">g</span>
+                <li class="dropdown-item" onclick="Module.select(1, 10, 0)">{3,5}</li>
+                <li class="dropdown-item" onclick="Module.select(1, 10, 1)">{3,3,3}</li>
+                <li class="dropdown-item" onclick="Module.select(1, 10, 2)">{3,3,4}</li>
+                <li class="dropdown-item" onclick="Module.select(1, 10, 3)">{3,4,3}</li>
+                <li class="dropdown-item" onclick="Module.select(1, 10, 4)">{3,3,5}a</li>
+                <li class="dropdown-item" onclick="Module.select(1, 10, 5)">{3,3,5}b</li>
+                <li class="dropdown-item" onclick="Module.select(1, 10, 6)">{3,3,5}c</li>
+                <li class="dropdown-item" onclick="Module.select(1, 10, 7)">{3,3,5}d</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">222-family<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 11, 0)">2-2-2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 1)"> 1</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 2)"> 2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 3)"> 3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 4)"> 4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 5)"> 1,2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 6)"> 1,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 7)"> 1,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 8)"> 2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 9)"> 2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 10)"> 3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 11)">1,2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 12)">1,2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 13)">1,3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 11, 14)">2,3,4</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">227-family<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 12, 0)">2-2-7</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 1)"> 1</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 2)"> 2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 3)"> 3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 4)"> 4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 5)"> 1,2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 6)"> 1,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 7)"> 1,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 8)"> 2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 9)"> 2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 10)"> 3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 11)">1,2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 12)">1,2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 13)">1,3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 12, 14)">2,3,4</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">233-family<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 13, 0)">2-3-3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 1)"> 1</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 2)"> 2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 3)"> 3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 4)"> 4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 5)"> 1,2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 6)"> 1,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 7)"> 1,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 8)"> 2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 9)"> 2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 10)"> 3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 11)">1,2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 12)">1,2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 13)">1,3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 13, 14)">2,3,4</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">234-family<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 14, 0)">2-3-4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 1)"> 1</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 2)"> 2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 3)"> 3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 4)"> 4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 5)"> 1,2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 6)"> 1,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 7)"> 1,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 8)"> 2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 9)"> 2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 10)"> 3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 11)">1,2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 12)">1,2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 13)">1,3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 14, 14)">2,3,4</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">235-family<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 15, 0)">2-3-5</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 1)"> 1</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 2)"> 2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 3)"> 3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 4)"> 4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 5)"> 1,2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 6)"> 1,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 7)"> 1,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 8)"> 2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 9)"> 2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 10)"> 3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 11)">1,2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 12)">1,2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 13)">1,3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 15, 14)">2,3,4</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item"> Y-family<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 16, 0)"> Y</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 1)"> 1</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 2)"> 2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 3)"> 3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 4)"> 4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 5)"> 1,2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 6)"> 1,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 7)"> 1,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 8)"> 2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 9)"> 2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 10)"> 3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 11)">1,2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 12)">1,2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 13)">1,3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 16, 14)">2,3,4</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">333-family<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 17, 0)">3-3-3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 1)"> 1</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 2)"> 2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 3)"> 3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 4)"> 4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 5)"> 1,2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 6)"> 1,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 7)"> 1,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 8)"> 2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 9)"> 2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 10)"> 3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 11)">1,2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 12)">1,2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 13)">1,3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 17, 14)">2,3,4</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">334-family<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 18, 0)">3-3-4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 1)"> 1</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 2)"> 2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 3)"> 3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 4)"> 4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 5)"> 1,2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 6)"> 1,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 7)"> 1,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 8)"> 2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 9)"> 2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 10)"> 3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 11)">1,2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 12)">1,2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 13)">1,3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 18, 14)">2,3,4</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">343-family<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 19, 0)">3-4-3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 1)"> 1</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 2)"> 2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 3)"> 3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 4)"> 4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 5)"> 1,2</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 6)"> 1,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 7)"> 1,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 8)"> 2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 9)"> 2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 10)"> 3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 11)">1,2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 12)">1,2,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 13)">1,3,4</li>
+                <li class="dropdown-item" onclick="Module.select(1, 19, 14)">2,3,4</li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item">335-family<span class="float-end ms-2">»</span></a>
+              <ul class="submenu dropdown-menu">
+                <li class="dropdown-item" onclick="Module.select(1, 20, 0)">3-3-5</li>
+                <li class="dropdown-item" onclick="Module.select(1, 20, 1)">
+                  1
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F12</span>
                 </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="toggles between coarse/fine meshes"
-                    onclick="Module.select(7, 1, -1)">
-                  toggle quality
-                  <span class="float-end badge bg-light text-muted">q</span>
+                <li class="dropdown-item" onclick="Module.select(1, 20, 2)">
+                  2
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F11</span>
                 </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="increase min edge/vertex thickness"
-                    onclick="Module.select(7, 2, -1)">
-                  + min thickness
+                <li class="dropdown-item" onclick="Module.select(1, 20, 3)">
+                  3
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F10</span>
                 </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="decrease min edge/vertex thickness"
-                    onclick="Module.select(7, 3, -1)">
-                  - min thickness
+                <li class="dropdown-item" onclick="Module.select(1, 20, 4)">
+                  4
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F9</span>
                 </li>
-                <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                    title="exports graph to simple text file"
-                    onclick="Module.select(7, 4, -1)">
-                  export graph
-                  <span class="float-end badge bg-light text-muted">G</span>
+                <li class="dropdown-item" onclick="Module.select(1, 20, 5)">
+                  1,2
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F8</span>
                 </li>
+                <li class="dropdown-item" onclick="Module.select(1, 20, 6)">
+                  1,3
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F7</span>
+                </li>
+                <li class="dropdown-item" onclick="Module.select(1, 20, 7)">
+                  1,4
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F6</span>
+                </li>
+                <li class="dropdown-item" onclick="Module.select(1, 20, 8)">
+                  2,3
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F5</span>
+                </li>
+                <li class="dropdown-item" onclick="Module.select(1, 20, 9)">
+                  2,4
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F4</span>
+                </li>
+                <li class="dropdown-item" onclick="Module.select(1, 20, 10)">
+                  3,4
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F3</span>
+                </li>
+                <li class="dropdown-item" onclick="Module.select(1, 20, 11)">1,2,3</li>
+                <li class="dropdown-item" onclick="Module.select(1, 20, 12)">
+                  1,2,4
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F2</span>
+                </li>
+                <li class="dropdown-item" onclick="Module.select(1, 20, 13)">
+                  1,3,4
+                  <span class="float-end badge bg-light text-muted ms-3">Shift + F1</span>
+                </li>
+                <li class="dropdown-item" onclick="Module.select(1, 20, 14)">2,3,4</li>
               </ul>
             </li>
           </ul>
-        </nav>
-      </aside>
-      <main class="col-lg-10">
-        <canvas id=canvas tabindex=-1 oncontextmenu="event.preventDefault()"></canvas>
-      </main>
-    </div>
-  </section>
+        </li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <a class="dropdown-item">View<span class="float-end ms-2">&raquo;</span></a>
+          <ul class="submenu dropdown-menu">
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="toggle between mono and stereo"
+                onclick="Module.select(2, 0, -1)">
+              stereo/mono
+              <span class="float-end badge bg-light text-muted ms-3">1/2</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="see the model farther away"
+                onclick="Module.select(2, 1, -1)">
+              zoom out
+              <span class="float-end badge bg-light text-muted ms-3">&darr;</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="see the model closer up"
+                onclick="Module.select(2, 2, -1)">
+              zoom in
+              <span class="float-end badge bg-light text-muted ms-3">&uarr;</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="move the camera to the left"
+                onclick="Module.select(2, 3, -1)">
+              pan left
+              <span class="float-end badge bg-light text-muted ms-3">Shift + &larr;</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="move the camera to the right"
+                onclick="Module.select(2, 4, -1)">
+              pan right
+              <span class="float-end badge bg-light text-muted ms-3">Shift + &rarr;</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="move the camera up"
+                onclick="Module.select(2, 5, -1)">
+              pan up
+              <span class="float-end badge bg-light text-muted ms-3">Shift + &uarr;</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="move the camera down"
+                onclick="Module.select(2, 6, -1)">
+              pan down
+              <span class="float-end badge bg-light text-muted ms-3">Shift + &darr;</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="adjust the camera to the center of the model"
+                onclick="Module.select(2, 7, -1)">
+              pan center
+              <span class="float-end badge bg-light text-muted ms-3">P</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="enter fullscreen"
+                onclick="Module.select(2, 8, -1)">
+              fullscreen
+              <span class="float-end badge bg-light text-muted ms-3">F</span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="dropdown-item">Move<span class="float-end ms-2">&raquo;</span></a>
+          <ul class="submenu dropdown-menu">
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="if you have a 1- or 2- button mouse, you can switch mouse channels"
+                onclick="Module.select(3, 0, -1)">
+              flip mouse
+              <span class="float-end badge bg-light text-muted ms-3">m</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="toggle drifting"
+                onclick="Module.select(3, 1, -1)">
+              drifting on/off
+              <span class="float-end badge bg-light text-muted ms-3">D</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="toggle the high/low drag to let the model float around freely"
+                onclick="Module.select(3, 2, -1)">
+              hi/lo drag
+              <span class="float-end badge bg-light text-muted ms-3">SPACE</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="make the model spring to the center"
+                onclick="Module.select(3, 3, -1)">
+              springy
+              <span class="float-end badge bg-light text-muted ms-3">c</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="invert the spring"
+                onclick="Module.select(3, 4, -1)">
+              flip spring
+              <span class="float-end badge bg-light text-muted ms-3">i</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="set the springs center"
+                onclick="Module.select(3, 5, -1)">
+              tare spring
+              <span class="float-end badge bg-light text-muted ms-3">C</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="slow down movement"
+                onclick="Module.select(3, 6, -1)">
+              slower
+              <span class="float-end badge bg-light text-muted ms-3">s</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="speed up movement"
+                onclick="Module.select(3, 7, -1)">
+              faster
+              <span class="float-end badge bg-light text-muted ms-3">S</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="reset motion"
+                onclick="Module.select(3, 8, -1)">
+              reset
+              <span class="float-end badge bg-light text-muted ms-3">x</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="toggle pause"
+                onclick="Module.select(3, 9, -1)">
+              pause
+              <span class="float-end badge bg-light text-muted ms-3">p</span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="dropdown-item">Fly<span class="float-end ms-2">&raquo;</span></a>
+          <ul class="submenu dropdown-menu">
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="fly through a model"
+                onclick="Module.select(4, 0, -1)">
+              toggle flying
+              <span class="float-end badge bg-light text-muted ms-3">y</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="accelerate forward"
+                onclick="Module.select(4, 1, -1)">
+              forward
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="accelerate backward"
+                onclick="Module.select(4, 2, -1)">
+              backward
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="leave a trail line"
+                onclick="Module.select(4, 3, -1)">
+              trail line
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="leave a trail ribbon"
+                onclick="Module.select(4, 4, -1)">
+              trail ribbon
+              <span class="float-end badge bg-light text-muted ms-3">t</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="leave a trail tube"
+                onclick="Module.select(4, 5, -1)">
+              trail tube
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="break a trail or start a new trail"
+                onclick="Module.select(4, 6, -1)">
+              break trail
+              <span class="float-end badge bg-light text-muted ms-3">T</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="pause trail"
+                onclick="Module.select(4, 7, -1)">
+              pause trail
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="toggle between hiding and displaying the model"
+                onclick="Module.select(4, 8, -1)">
+              hide model
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="dropdown-item">Style<span class="float-end ms-2">&raquo;</span></a>
+          <ul class="submenu dropdown-menu">
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="toggle faces"
+                onclick="Module.select(5, 0, -1)">
+              faces
+              <span class="float-end badge bg-light text-muted ms-3">f</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="toggle edges"
+                onclick="Module.select(5, 1, -1)">
+              edges
+              <span class="float-end badge bg-light text-muted ms-3">e</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="toggle vertices"
+                onclick="Module.select(5, 2, -1)">
+              vertices
+              <span class="float-end badge bg-light text-muted ms-3">v</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="very large models may look better in line-art style"
+                onclick="Module.select(5, 3, -1)">
+              line-art
+              <span class="float-end badge bg-light text-muted ms-3">h</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="toggle wireframe style"
+                onclick="Module.select(5, 4, -1)">
+              wireframe
+              <span class="float-end badge bg-light text-muted ms-3">w</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title=""
+                onclick="Module.select(5, 5, -1)">
+              thinner
+              <span class="float-end badge bg-light text-muted ms-3">-</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title=""
+                onclick="Module.select(5, 6, -1)">
+              fatter
+              <span class="float-end badge bg-light text-muted ms-3">+</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title=""
+                onclick="Module.select(5, 7, -1)">
+              fog
+              <span class="float-end badge bg-light text-muted ms-3">H</span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a class="dropdown-item">Export<span class="float-end ms-2">&raquo;</span></a>
+          <ul class="submenu dropdown-menu">
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="exports geometry to the file jenn_export.stl"
+                onclick="Module.select(7, 0, -1)">
+              export to STL
+              <span class="float-end badge bg-light text-muted ms-3">g</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="toggles between coarse/fine meshes"
+                onclick="Module.select(7, 1, -1)">
+              toggle quality
+              <span class="float-end badge bg-light text-muted ms-3">q</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="increase min edge/vertex thickness for exported model"
+                onclick="Module.select(7, 2, -1)">
+              + min thickness
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="decrease min edge/vertex thickness for exported model"
+                onclick="Module.select(7, 3, -1)">
+              - min thickness
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="exports graph to simple text file"
+                onclick="Module.select(7, 4, -1)">
+              export graph
+              <span class="float-end badge bg-light text-muted ms-3">G</span>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+        <li>
+          <div class="text-muted text-wrap px-3">
+            <div class="py-1">
+              <b>Rotate</b> <br> Drag with a three-button mouse (or use ctrl-drag &amp; alt-drag)
+            </div>
+            <div class="py-1">
+              <b>Pan</b> <br> Shift-drag to pan<br>
+            </div>
+            <div class="py-1">
+              <b>In flying mode</b> <br> Right-drag controls speed and left-drag steers direction
+            </div>
+          </div>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="col-xl-10">
+    <canvas id="canvas" class="container-fluid" tabindex=-1 oncontextmenu="event.preventDefault()"></canvas>
+  </main>
 </div>
+
+<footer class="footer py-3 bg-light fixed-bottom text-center">
+  <div class="container">
+    <span class="text-muted">
+      Jenn3D was created by <a href="http://fritzo.org/">Fritz Obermeyer</a>,
+      and ported to the web by <a href="https://shawnzhong.com">Shawn Zhong</a>.
+    </span>
+  </div>
+</footer>
+
 
 
 <script>
@@ -769,12 +809,33 @@
     a.click();
   };
 
+  const resizeCanvas = () => {
+    if (document.fullscreen || document.mozFullScreen || document.webkitIsFullScreen) {
+      Module.setCanvasSize(screen.width, screen.height);
+    } else {
+      const canvasWidth = Module.canvas.getBoundingClientRect().width;
+      Module.setCanvasSize(canvasWidth, canvasWidth * 3 / 4);
+    }
+  };
+
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(resizeCanvas, 250);
+  })
+
   var Module = {
-    arguments: "-c 3 2 2 4 2 3 -v 1 2 3 -s 800 800".split(" "),
+    postRun: [resizeCanvas],
+    arguments: "-c 3 2 2 4 2 3 -v 1 2 3 -s 800 600".split(" "),
     canvas: document.getElementById("canvas")
   };
 
   Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(e => new bootstrap.Tooltip(e))
+
+  const changeCursorOnShift = (e) => Module.canvas.style.cursor = e.shiftKey ? "move" : "initial";
+  document.addEventListener("keydown", changeCursorOnShift)
+  document.addEventListener("keyup", changeCursorOnShift)
+  
 </script>
 <script async src=jenn3d.js></script>
 </body>
