@@ -35,11 +35,19 @@ add_executable(${PROJECT_NAME}
 if(EMSCRIPTEN)
     message(STATUS "WebAssembly build enabled")
 
-    set_target_properties(${PROJECT_NAME} 
+    set_target_properties(${PROJECT_NAME}
         PROPERTIES SUFFIX ".js"
-        LINK_FLAGS
-            "--bind -s WASM=1 -s LEGACY_GL_EMULATION=1 -s ENVIRONMENT=web"
+        LINK_FLAGS "\
+            --bind \
+            -s WASM=1 \
+            -s LEGACY_GL_EMULATION=1 \
+            -s ENVIRONMENT=web \
+            -s USE_LIBPNG=1 \
+            -s MAX_WEBGL_VERSION=2 \
+            -s ALLOW_MEMORY_GROWTH=1\
+        "
     )
+    add_compile_definitions(CAPTURE=4)
 
     add_custom_command(
         TARGET ${PROJECT_NAME} POST_BUILD VERBATIM

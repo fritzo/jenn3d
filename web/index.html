@@ -76,8 +76,6 @@
     <li><a href="https://jenn3d.org/" class="nav-link px-2 link-dark">Homepage</a></li>
     <li><a href="https://github.com/fritzo/jenn3d" class="nav-link px-2 link-dark">GitHub</a></li>
   </ul>
-
-
 </header>
 
 <div class="row">
@@ -732,33 +730,65 @@
           </ul>
         </li>
         <li>
+          <a class="dropdown-item">Capture<span class="float-end ms-2">&raquo;</span></a>
+          <ul class="submenu dropdown-menu">
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="toggles between coarse/fine meshes"
+                onclick="Module.select(7, 0, -1)">
+              toggle quality
+              <span class="float-end badge bg-light text-muted ms-3">q</span>
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="capture a screenshot"
+                onclick="Module.select(7, 4, -1)">
+              save 1 tile
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="capture image of size 2x2 screens"
+                onclick="Module.select(7, 5, -1)">
+              save 4 tiles
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="capture image of size 3x3 screens"
+                onclick="Module.select(7, 6, -1)">
+              save 9 tiles
+            </li>
+            <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                title="capture image of size 4x4 screens"
+                onclick="Module.select(7, 7, -1)">
+              save 16 tiles
+            </li>
+          </ul>
+        </li>
+
+        <li>
           <a class="dropdown-item">Export<span class="float-end ms-2">&raquo;</span></a>
           <ul class="submenu dropdown-menu">
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                 title="exports geometry to the file jenn_export.stl"
-                onclick="Module.select(7, 0, -1)">
+                onclick="Module.select(8, 0, -1)">
               export to STL
               <span class="float-end badge bg-light text-muted ms-3">g</span>
             </li>
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                 title="toggles between coarse/fine meshes"
-                onclick="Module.select(7, 1, -1)">
+                onclick="Module.select(8, 1, -1)">
               toggle quality
               <span class="float-end badge bg-light text-muted ms-3">q</span>
             </li>
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                 title="increase min edge/vertex thickness for exported model"
-                onclick="Module.select(7, 2, -1)">
+                onclick="Module.select(8, 2, -1)">
               + min thickness
             </li>
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                 title="decrease min edge/vertex thickness for exported model"
-                onclick="Module.select(7, 3, -1)">
+                onclick="Module.select(8, 3, -1)">
               - min thickness
             </li>
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                 title="exports graph to simple text file"
-                onclick="Module.select(7, 4, -1)">
+                onclick="Module.select(8, 4, -1)">
               export graph
               <span class="float-end badge bg-light text-muted ms-3">G</span>
             </li>
@@ -835,7 +865,6 @@
   const changeCursorOnShift = (e) => Module.canvas.style.cursor = e.shiftKey ? "move" : "initial";
   document.addEventListener("keydown", changeCursorOnShift)
   document.addEventListener("keyup", changeCursorOnShift)
-  
 </script>
 <script async src=jenn3d.js></script>
 </body>

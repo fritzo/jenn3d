@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <fstream>
 
 #ifdef __EMSCRIPTEN__
-#include "emscripten/emscripten.h"
+#include <emscripten/emscripten.h>
 #endif
 
 #ifndef INFINITY
