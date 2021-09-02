@@ -75,7 +75,6 @@ void toggle_pause () { if (projector->paused) end_pause(); else beg_pause(); }
 void display ();
 void mouse (int button, int state, int X, int Y)
 {
-#ifdef __EMSCRIPTEN__
     //simulate right/middle button using ctrl/alt
     if (button == GLUT_LEFT_BUTTON) {
         if (glutGetModifiers() & GLUT_ACTIVE_CTRL) {
@@ -84,9 +83,17 @@ void mouse (int button, int state, int X, int Y)
             button = GLUT_MIDDLE_BUTTON;
         }
     }
-#endif
+
     logger.debug() << "button " << button << " is in state " << state |0;
 
+    //panning
+    if (button == GLUT_LEFT_BUTTON) {
+        if (state == GLUT_DOWN && (glutGetModifiers() & GLUT_ACTIVE_SHIFT)) {
+            projector->start_pan(X, Y);
+            return;
+        }
+        if (state == GLUT_UP) projector->end_pan();
+    }
 
 #ifdef __EMSCRIPTEN__
     //scrolling controls zoom
@@ -157,6 +164,8 @@ void mouse (int button, int state, int X, int Y)
 }
 void mouse_motion (int X, int Y)
 {
+    bool panning = projector->pan(X, Y);
+    if (panning) return;
     float x = projector->convert_x(X);
     float y = projector->convert_y(Y);
     animator->rot_drag(x, y);

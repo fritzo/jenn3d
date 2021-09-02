@@ -25,6 +25,7 @@
 // unsupported: window-related
 #define glutInitWindowPosition(...) NULL
 #define glutSetWindowTitle(...) NULL
+#define glutInitWindowSize(...) NULL
 
 // unsupported: pixel transformation
 // used in capture
