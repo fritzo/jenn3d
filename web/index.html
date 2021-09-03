@@ -37,27 +37,6 @@
       cursor: pointer;
     }
   </style>
-
-  <script type="text/javascript">
-    document.addEventListener("DOMContentLoaded", function () {
-      // make it as accordion for smaller screens
-      if (window.innerWidth < 1200) {
-        document.querySelectorAll('.sidebar .dropdown-item').forEach(function (element) {
-          element.addEventListener('click', function (e) {
-            let nextEl = element.nextElementSibling;
-            if (nextEl && nextEl.classList.contains('submenu')) {
-              e.preventDefault();
-              if (nextEl.style.display === 'block') {
-                nextEl.style.display = 'none';
-              } else {
-                nextEl.style.display = 'block';
-              }
-            }
-          });
-        })
-      }
-    });
-  </script>
 </head>
 
 <body class="container">
@@ -734,29 +713,29 @@
           <ul class="submenu dropdown-menu">
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                 title="toggles between coarse/fine meshes"
-                onclick="Module.select(7, 0, -1)">
+                onclick="Module.select(6, 0, -1)">
               toggle quality
               <span class="float-end badge bg-light text-muted ms-3">q</span>
             </li>
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                title="capture a screenshot"
-                onclick="Module.select(7, 4, -1)">
-              save 1 tile
+                title="capture a screenshot in the original resolution"
+                onclick="captureImage()">
+              save 1x image
             </li>
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                title="capture image of size 2x2 screens"
-                onclick="Module.select(7, 5, -1)">
-              save 4 tiles
+                title="capture a screenshot with a scale factor of 2"
+                onclick="captureImage(2)">
+              save 2x image
             </li>
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                title="capture image of size 3x3 screens"
-                onclick="Module.select(7, 6, -1)">
-              save 9 tiles
+                title="capture a screenshot with a scale factor of 3"
+                onclick="captureImage(3)">
+              save 3x image
             </li>
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                title="capture image of size 4x4 screens"
-                onclick="Module.select(7, 7, -1)">
-              save 16 tiles
+                title="capture a screenshot with a scale factor of 4"
+                onclick="captureImage(4)">
+              save 4x image
             </li>
           </ul>
         </li>
@@ -766,29 +745,29 @@
           <ul class="submenu dropdown-menu">
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                 title="exports geometry to the file jenn_export.stl"
-                onclick="Module.select(8, 0, -1)">
+                onclick="Module.select(7, 0, -1)">
               export to STL
               <span class="float-end badge bg-light text-muted ms-3">g</span>
             </li>
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                 title="toggles between coarse/fine meshes"
-                onclick="Module.select(8, 1, -1)">
+                onclick="Module.select(7, 1, -1)">
               toggle quality
               <span class="float-end badge bg-light text-muted ms-3">q</span>
             </li>
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                 title="increase min edge/vertex thickness for exported model"
-                onclick="Module.select(8, 2, -1)">
+                onclick="Module.select(7, 2, -1)">
               + min thickness
             </li>
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                 title="decrease min edge/vertex thickness for exported model"
-                onclick="Module.select(8, 3, -1)">
+                onclick="Module.select(7, 3, -1)">
               - min thickness
             </li>
             <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                 title="exports graph to simple text file"
-                onclick="Module.select(8, 4, -1)">
+                onclick="Module.select(7, 4, -1)">
               export graph
               <span class="float-end badge bg-light text-muted ms-3">G</span>
             </li>
@@ -830,41 +809,81 @@
 
 
 <script>
+  const triggerDownload = (url, filename) => {
+    const link = document.createElement('a');
+    link.download = filename;
+    link.href = url
+    link.click();
+  }
+
   const saveFile = (filename) => {
     const data = FS.readFile(filename);
-    const a = document.createElement('a');
     const blob = new Blob([data], {'type': 'application/octet-stream'});
-    a.href = window.URL.createObjectURL(blob);
-    a.download = filename;
-    a.click();
+    const url = window.URL.createObjectURL(blob);
+    triggerDownload(url, filename);
   };
 
-  const resizeCanvas = () => {
+  const captureImage = (scaleFactor = 1) => {
+    if (!GLUT.displayFunc) return;
+    Browser.requestAnimationFrame(function () {
+      resizeCanvas(scaleFactor);
+      wasmTable.get(GLUT.displayFunc)(); // force re-render
+
+      const url = Module.canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+      triggerDownload(url, 'jenn_capture.png');
+
+      if (scaleFactor !== 1) {
+        resizeCanvas();
+      }
+    });
+  }
+
+  // resize-related
+  const calculateCanvasSize = (aspectRatio = 5 / 4) => {
     if (document.fullscreen || document.mozFullScreen || document.webkitIsFullScreen) {
-      Module.setCanvasSize(screen.width, screen.height);
-    } else {
-      const canvasWidth = Module.canvas.getBoundingClientRect().width;
-      Module.setCanvasSize(canvasWidth, canvasWidth * 3 / 4);
+      return [screen.width, screen.height];
     }
+    const w = Module.canvas.getBoundingClientRect().width;
+    return [w, w / aspectRatio];
+  }
+
+  const resizeCanvas = (scaleFactor = 1) => {
+    const [w, h] = calculateCanvasSize();
+    const scaledWidth = w * scaleFactor;
+    const scaledHeight = h * scaleFactor;
+    Module.setCanvasSize(scaledWidth, scaledHeight);
   };
 
   let resizeTimer;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(resizeCanvas, 250);
+    resizeTimer = setTimeout(resizeCanvas, 500);
   })
 
+  // wasm module
   var Module = {
-    postRun: [resizeCanvas],
-    arguments: "-c 3 2 2 4 2 3 -v 1 2 3 -s 800 600".split(" "),
+    postRun: [() => resizeCanvas()],
+    arguments: "-c 3 2 2 4 2 3 -v 1 2 3 -s 300 150".split(" "),
     canvas: document.getElementById("canvas")
   };
 
+  // DOM-related
   Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(e => new bootstrap.Tooltip(e))
 
   const changeCursorOnShift = (e) => Module.canvas.style.cursor = e.shiftKey ? "move" : "initial";
   document.addEventListener("keydown", changeCursorOnShift)
   document.addEventListener("keyup", changeCursorOnShift)
+
+  document.querySelectorAll('.sidebar .dropdown-item').forEach((element) => {
+    element.addEventListener('click', (e) => {
+      if (window.innerWidth >= 1200) return;
+      const nextEl = element.nextElementSibling;
+      if (nextEl && nextEl.classList.contains('submenu')) {
+        e.preventDefault();
+        nextEl.style.display = nextEl.style.display === 'block' ? 'none' : 'block';
+      }
+    });
+  })
 </script>
 <script async src=jenn3d.js></script>
 </body>

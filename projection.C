@@ -35,10 +35,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
     #include <png.h>
 #endif
 
-#ifdef __EMSCRIPTEN__
-#include <emscripten/emscripten.h>
-#endif
-
 #define NUM_STILL_FRAMES 128
 
 #define BORDER_RADIUS 1.8f
@@ -421,10 +417,6 @@ void Projector::capture (unsigned Nwide, unsigned Nhigh)
     fclose(file);
 
     logger.info() << "finished capturing." |0;
-
-#ifdef __EMSCRIPTEN__
-    EM_ASM(saveFile("jenn_capture.png"));
-#endif
 }
 #endif
 int Projector::select (int X, int Y)
