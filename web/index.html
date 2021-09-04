@@ -36,6 +36,10 @@
     .sidebar .dropdown-item {
       cursor: pointer;
     }
+
+    #canvas {
+      cursor: grab;
+    }
   </style>
 </head>
 
@@ -779,13 +783,13 @@
         <li>
           <div class="text-muted text-wrap px-3">
             <div class="py-1">
-              <b>Rotate</b> <br> Drag with a three-button mouse (or use ctrl-drag &amp; alt-drag)
+              <b>Rotate</b> <br> Drag with a 3-btn mouse (or ctrl-drag &amp; alt-drag)
             </div>
             <div class="py-1">
               <b>Pan</b> <br> Shift-drag to pan<br>
             </div>
             <div class="py-1">
-              <b>In flying mode</b> <br> Right-drag controls speed and left-drag steers direction
+              <b>In flying mode</b> <br> Right-drag controls speed <br> Left-drag steers direction
             </div>
           </div>
         </li>
@@ -797,7 +801,7 @@
   </main>
 </div>
 
-<footer class="footer py-3 bg-light fixed-bottom text-center">
+<footer id="footer" class="footer py-3 bg-light fixed-bottom text-center">
   <div class="container">
     <span class="text-muted">
       Jenn3D was created by <a href="http://fritzo.org/">Fritz Obermeyer</a>,
@@ -877,21 +881,29 @@
   };
 
   // DOM-related
-  Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(e => new bootstrap.Tooltip(e))
+  document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(e => new bootstrap.Tooltip(e))
 
-  const changeCursorOnShift = (e) => Module.canvas.style.cursor = e.shiftKey ? "move" : "initial";
+  const changeCursorOnShift = (e) => Module.canvas.style.cursor = e.shiftKey ? "move" : "grab";
   document.addEventListener("keydown", changeCursorOnShift)
   document.addEventListener("keyup", changeCursorOnShift)
 
-  document.querySelectorAll('.sidebar .dropdown-item').forEach((element) => {
-    element.addEventListener('click', (e) => {
+  const footer = document.getElementById("footer");
+  document.querySelectorAll('.sidebar .dropdown-item').forEach((dropdownEl) => {
+    const submenuEl = dropdownEl.nextElementSibling;
+    if (!submenuEl || !submenuEl.classList.contains('submenu')) return;
+
+    dropdownEl.addEventListener('click', () => {
       if (window.innerWidth >= 1200) return;
-      const nextEl = element.nextElementSibling;
-      if (nextEl && nextEl.classList.contains('submenu')) {
-        e.preventDefault();
-        nextEl.style.display = nextEl.style.display === 'block' ? 'none' : 'block';
-      }
+      submenuEl.style.display = submenuEl.style.display === 'block' ? 'none' : 'block';
     });
+
+    dropdownEl.addEventListener("mouseenter", () => {
+      if (window.innerWidth < 1200) return;
+      const diff = footer.getBoundingClientRect().top - submenuEl.getBoundingClientRect().bottom - 12;
+      if (diff < 0) {
+        submenuEl.style.transform = "translateY(" + diff + "px)";
+      }
+    })
   })
 </script>
 <script async src=jenn3d.js></script>
