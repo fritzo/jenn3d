@@ -860,9 +860,18 @@
     resizeTimer = setTimeout(resizeCanvas, 500);
   })
 
+  // only zoom when the mouse is on the canvas
+  const patchWheel = () => {
+    window.removeEventListener("mousewheel", GLUT.onMouseWheel, true);
+    window.removeEventListener("DOMMouseScroll", GLUT.onMouseWheel, true);
+
+    Module.canvas.addEventListener("mousewheel", GLUT.onMouseWheel, true);
+    Module.canvas.addEventListener("DOMMouseScroll", GLUT.onMouseWheel, true);
+  }
+
   // wasm module
   var Module = {
-    postRun: [() => resizeCanvas()],
+    postRun: [() => resizeCanvas(), patchWheel],
     arguments: "-c 3 2 2 4 2 3 -v 1 2 3 -s 300 150".split(" "),
     canvas: document.getElementById("canvas")
   };
