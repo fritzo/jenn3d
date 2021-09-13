@@ -1,2 +1,10 @@
 *.o
 /jenn
+/cmake-build-*
+.idea
+.vscode
+.DS_Store
+
+web/jenn3d.js
+web/jenn3d.wasm
+build

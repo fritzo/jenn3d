@@ -51,6 +51,7 @@ namespace Projection
 void Projector::reset ()
 {
     paused = false;
+    panning = false;
     in_stereo = false;
     high_contrast = false;
     reverse_colors = false;
@@ -442,6 +443,20 @@ void Projector::set_drawing (bool updating)
     animator->set_radius0(d_rad * BORDER_RADIUS);
     x_center = y_center = 0.0f;
     if (updating) update();
+}
+
+bool Projector::pan (int X, int Y)
+{
+    if (!panning) return false;
+
+    x_center -= animator->vis_rad * w_factor * 2.0 * (X - drag_X) / W;
+    y_center += animator->vis_rad * h_factor * 2.0 * (Y - drag_Y) / h;
+
+    drag_X = X;
+    drag_Y = Y;
+
+    update();
+    return true;
 }
 
 }

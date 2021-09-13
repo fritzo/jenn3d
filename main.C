@@ -75,8 +75,33 @@ void toggle_pause () { if (projector->paused) end_pause(); else beg_pause(); }
 void display ();
 void mouse (int button, int state, int X, int Y)
 {
+    //simulate right/middle button using ctrl/alt
+    if (button == GLUT_LEFT_BUTTON) {
+        if (glutGetModifiers() & GLUT_ACTIVE_CTRL) {
+            button = GLUT_RIGHT_BUTTON;
+        } else if (glutGetModifiers() & GLUT_ACTIVE_ALT) {
+            button = GLUT_MIDDLE_BUTTON;
+        }
+    }
+
     logger.debug() << "button " << button << " is in state " << state |0;
 
+    //panning
+    if (button == GLUT_LEFT_BUTTON) {
+        if (state == GLUT_DOWN && (glutGetModifiers() & GLUT_ACTIVE_SHIFT)) {
+            projector->start_pan(X, Y);
+            return;
+        }
+        if (state == GLUT_UP) projector->end_pan();
+    }
+
+#ifdef __EMSCRIPTEN__
+    //scrolling controls zoom
+    if ((button == SCROLL_UP || button == SCROLL_DOWN) && state == GLUT_DOWN) {
+        projector->zoom(button == SCROLL_UP ? ZOOM_OUT : ZOOM_IN);
+        return;
+    }
+#else
     //scrolling controls zoom
     if (button == SCROLL_UP) {
         if (state == GLUT_UP) projector->zoom(ZOOM_IN);
@@ -91,6 +116,7 @@ void mouse (int button, int state, int X, int Y)
     //check for menu operation
     bool on_menu = Menus::Menu::mouse(button, state, X, Y);
     if (on_menu and state == GLUT_DOWN) return;
+#endif
 
     //start dragging
     bool first_down = (animator->drag_channels == 0);
@@ -138,6 +164,8 @@ void mouse (int button, int state, int X, int Y)
 }
 void mouse_motion (int X, int Y)
 {
+    bool panning = projector->pan(X, Y);
+    if (panning) return;
     float x = projector->convert_x(X);
     float y = projector->convert_y(Y);
     animator->rot_drag(x, y);
@@ -179,37 +207,6 @@ void drift ()
     if (dt) animator->drift(dt);
     glutPostRedisplay();
 }
-const char * const key_message = 
-"                        Keyboard Shortcuts\n\
-    ESCAPE  -  exits Jenn\n\
-model\n\
-    F1-F12  -  select some basic models\n\
-    SHIFT + F1-F12  -  select some complicated models\n\
-view\n\
-    UP,DOWN  -  zoom in and out\n\
-    1,2  -  select mono/stereo\n\
-    SHIFT+UP,DOWN,LEFT,RIGHT  -  pan image a little\n\
-    CTRL+UP,DOWN,LEFT,RIGHT  -  pan image by an entire screen\n\
-    F  -  sets fullscreen\n\
-move\n\
-    SPACEBAR  -  toggles brakes\n\
-    c/C  -  toggles spring/sets spring's center\n\
-    s/S  -  slows down/Speeds up\n\
-    D  -  toggles drag\n\
-    y  -  toggles flying mode\n\
-style\n\
-    v/e/f  -  toggles vertices/edges/faces\n\
-    w  -  toggles wireframe\n\
-    h  -  toggles line-art style\n\
-camera\n\
-    q  -  toggles high/low quality\n\
-    b  -  toggles motion/depth blurring\n\
-    n/N  -  focuses lense nearer/farther\n\
-    a/A  -  shrinks/widens aperture\n\
-    p  -  pauses (shoots picture)\n\
-exporting\n\
-    g - exports geometry to .stl file\n\
-    G - exports graph to .graph file";
 void keyboard (unsigned char key, int w_x, int w_y)
 {
     switch (key) {
@@ -333,9 +330,11 @@ void finish_buffer ()
 }
 void update_title ()
 {
+#ifndef __EMSCRIPTEN__
     static char title_string[256];
     sprintf(title_string, "Jenn. %.1f%%", 100.0 / animator->vis_rad);
     glutSetWindowTitle(title_string);
+#endif
 }
 void display () { projector->display(); }
 void reshape (int w, int h)
@@ -367,6 +366,10 @@ GlutManager::GlutManager (int *argc, char **argv,
     glutInit(argc,argv);
 
     //set display mode
+#ifdef __EMSCRIPTEN__
+    glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH
+                       | GLUT_MULTISAMPLE );
+#else
     glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH
                        | GLUT_ACCUM | GLUT_MULTISAMPLE );
     if (not glutGet(GLUT_DISPLAY_MODE_POSSIBLE)) {
@@ -374,6 +377,7 @@ GlutManager::GlutManager (int *argc, char **argv,
             << "bad display mode: some features may be unavailable" |0;
         glutInitDisplayMode( GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH );
     }
+#endif
 
     //set window size
     glutInitWindowSize(init_width, init_height);
@@ -426,6 +430,9 @@ void GlutManager::init_callbacks ()
 }
 void GlutManager::toggle_fullscreen ()
 {
+#ifdef __EMSCRIPTEN__
+  glutFullScreen();
+#else
     //  this does not seem to work:
     //if (not glutGameModeGet(GLUT_GAME_MODE_POSSIBLE)) {
     //    logger.info() << "fullscreen not available" |0;
@@ -447,6 +454,7 @@ void GlutManager::toggle_fullscreen ()
 
     //this doesn't guarantee full-screen images.
     //glutFullScreen(); 
+#endif
 }
 void toggle_fullscreen () { GM::toggle_fullscreen(); }
 

@@ -22,6 +22,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <vector>
 #include <cstring>
 
+#ifdef __EMSCRIPTEN__
+#include "emscripten/bind.h"
+#endif
+
 namespace Menus
 {
 
@@ -69,6 +73,7 @@ void Menu::clear ()
 }
 void Menu::display ()
 {
+#ifndef __EMSCRIPTEN__
     if (menus_hidden) return;
     int w = glutGet(GLUT_WINDOW_WIDTH);
     int h = glutGet(GLUT_WINDOW_HEIGHT);
@@ -76,6 +81,7 @@ void Menu::display ()
     for (miter i=s_menus.begin(); i!=s_menus.end(); ++i) {
         i->second->_display();
     }
+#endif
 }
 Menu* g_start_menu = NULL;
 bool Menu::mouse (int button, int state, int X, int Y)
@@ -93,9 +99,11 @@ bool Menu::mouse (int button, int state, int X, int Y)
 }
 void Menu::reshape (int w, int h)
 {
+#ifndef __EMSCRIPTEN__
     for (miter i=s_menus.begin(); i!=s_menus.end(); ++i) {
         i->second->_reshape(w,h);
     }
+#endif
 }
 void Menu::_display ()
 {
@@ -180,8 +188,10 @@ Jenn3d is released under version 2 of the GNU GPL.\n\n\
   any command-line arguments suppress this message";
 void start_menu ()
 {
+#ifndef __EMSCRIPTEN__
     Assert (!g_start_menu, "tried to create two start menus")
     g_start_menu = new Menu(start_message);
+#endif
 }
 
 //[ help dialogs ]---------------------
@@ -420,6 +430,9 @@ void ExportMenu::_call (int N)
     const char* message = "exporting geometry to jenn_export.png";
 
     switch (N) {
+#ifdef __EMSCRIPTEN__
+        case 0: drawing->export_stl();                              break;
+#else
         case 0: {
             //draw waiting dialog
             Menu* dialog = new Menu(message, Helv18, 0.5, 0.5, false);
@@ -433,6 +446,7 @@ void ExportMenu::_call (int N)
             dialog->close();
             return;
         }
+#endif
         case 1: projector->toggle_quality();                        break;
         case 2: drawing->set_coating(drawing->get_coating()*1.4f);  break;
         case 3: drawing->set_coating(drawing->get_coating()/1.4f);  break;
@@ -764,10 +778,12 @@ FamilyMenu::~FamilyMenu ()
 void ModelMenu::_call (int N)
 {
     if (0 <= N and N < m_size) {
+#ifndef __EMSCRIPTEN__
         //open waiting dialog
         Menu* dialog = new Menu("building model...", Helv18, 0.5, 0.5, false);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         finish_buffer();
+#endif
 
         //build model
         int edges = m_edges ? m_edges[N] : 1111;
@@ -776,8 +792,10 @@ void ModelMenu::_call (int N)
         Polytope::select(m_nums[N], edges, faces, weights);
         update_title();
 
+#ifndef __EMSCRIPTEN__
         //close dialog
         dialog->close();
+#endif
     }
 }
 
@@ -1007,6 +1025,29 @@ void RootMenu::_call (int N)
 #endif
     }
 }
+
+#ifdef __EMSCRIPTEN__
+void select(int i, int j, int k) {
+  static Menu* root_menu = Menu::s_menus.begin()->second;
+  root_menu->_call(i);
+
+  Menu* sub_menu = Menu::s_menus.rbegin()->second;
+  sub_menu->_call(j);
+
+  if (k != -1) {
+    Menu* sub_sub_menu = Menu::s_menus.rbegin()->second;
+    sub_sub_menu->_call(k);
+    delete sub_sub_menu;
+  }
+
+  delete sub_menu;
+}
+
+EMSCRIPTEN_BINDINGS(menu) {
+  emscripten::function("select", &select);
+}
+
+#endif
 
 }
 

@@ -93,6 +93,9 @@ public:
     static void display ();
     static bool mouse (int button, int state, int x, int y);
     static void reshape (int w, int h);
+#ifdef __EMSCRIPTEN__
+    friend void select(int i, int j, int k);
+#endif
 };
 
 //start message

@@ -24,6 +24,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <sys/time.h>
 #include <cstdlib>
 
+#ifdef __EMSCRIPTEN__
+#include "glut_wasm.h"
+#endif
+
 template<class T> inline T min (T lhs, T rhs) { return (lhs<rhs) ? lhs:rhs; }
 template<class T> inline T max (T lhs, T rhs) { return (lhs>rhs) ? lhs:rhs; }
 

@@ -35,6 +35,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include <algorithm>
 #include <fstream>
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten/emscripten.h>
+#endif
+
 #ifndef INFINITY
 #define INFINITY 1.0e38f
 #endif
@@ -458,7 +462,20 @@ void Drawing::export_stl ()
     }
 
     delete export_file;
+
+#ifdef __EMSCRIPTEN__
+    EM_ASM(saveFile("jenn_export.stl"));
+#endif
 }
+
+void Drawing::export_graph () {
+  graph.save();
+
+#ifdef __EMSCRIPTEN__
+  EM_ASM(saveFile("jenn.graph"));
+#endif
+}
+
 int Drawing::select (float x,float y)
 {
     if (not _grid_on) return -1;
@@ -752,7 +769,36 @@ void Drawing::_draw_sphere (float* center, float radius, int v)
         float inner_depth = clamp_depth(center[2]+radius*sphere[i-step][0][2]);
         float outer_depth = clamp_depth(center[2]+radius*sphere[  i   ][0][2]);
 
+#ifdef __EMSCRIPTEN__
+        if (FILL == GL_LINE) {
+            glBegin(GL_LINE_STRIP);
+            for (unsigned j=0; j<SPH_THETA; j+=step) {
+                glColor3fv(inner_color);
+                glVertex3f(center[0] + radius * sphere[i-step][j][0],
+                           center[1] + radius * sphere[i-step][j][1],
+                           inner_depth);
+            }
+            glColor3fv(inner_color);
+            glVertex3f(center[0] + radius * sphere[i-step][0][0],
+                       center[1] + radius * sphere[i-step][0][1],
+                       inner_depth);
+            for (unsigned j=0; j<SPH_THETA; j+=step) {
+                glColor3fv(outer_color);
+                glVertex3f(center[0] + radius * sphere[i][j][0],
+                           center[1] + radius * sphere[i][j][1],
+                           outer_depth);
+            }
+            glColor3fv(outer_color);
+            glVertex3f(center[0] + radius * sphere[i][0][0],
+                       center[1] + radius * sphere[i][0][1],
+                       outer_depth);
+            glEnd();
+        }
+
+        glBegin(FILL == GL_FILL ? GL_QUAD_STRIP : GL_LINES);
+#else
         glBegin(GL_QUAD_STRIP);
+#endif
         for (unsigned j=0; j<SPH_THETA; j+=step) {
             glColor3fv(inner_color);
             glVertex3f(center[0] + radius * sphere[i-step][j][0],
@@ -1153,7 +1199,22 @@ void Drawing::_draw_tube (Vect& begin, Vect& end,
         }
 
         //draw cylinder
+#ifdef __EMSCRIPTEN__
+        if (FILL == GL_LINE) {
+            glBegin(GL_LINE_STRIP);
+            for (unsigned i = 0; i < POLY_SIDES; i+=step) {
+                glColor3fv(get_color(shade1[i]));  glVertex3fv(poly1[i]);
+            }
+            for (unsigned i = 0; i < POLY_SIDES; i+=step) {
+                glColor3fv(get_color(shade2[i]));  glVertex3fv(poly2[i]);
+            }
+            glEnd();
+        }
+
+        glBegin(FILL == GL_FILL ? GL_QUAD_STRIP : GL_LINES);
+#else
         glBegin(GL_QUAD_STRIP);
+#endif
         for (unsigned i = 0; i < POLY_SIDES; i+=step) {
             glColor3fv(get_color(shade1[i]));  glVertex3fv(poly1[i]);
             glColor3fv(get_color(shade2[i]));  glVertex3fv(poly2[i]);
@@ -1331,7 +1392,22 @@ void Drawing::_draw_face (int f)
         }
 
         //draw a fan at center
+#ifdef __EMSCRIPTEN__
+        if (FILL == GL_LINE) {
+            glBegin(GL_LINES);
+            for (int n = 0; n < N; ++n) {
+                draw_face_vert(center);
+                draw_face_vert(corn2[n]);
+            }
+            draw_face_vert(center);
+            draw_face_vert(corn2[0]);
+            glEnd();
+        }
+
+        glBegin(FILL == GL_FILL ? GL_TRIANGLE_FAN : GL_LINE_LOOP);
+#else
         glBegin(GL_TRIANGLE_FAN);
+#endif
         draw_face_vert(center);
         for (int n=0; n<N; ++n) {
             draw_face_vert(corn2[n]);
@@ -1382,7 +1458,22 @@ void Drawing::_draw_face (int f)
             }
 
             //draw strips
+#ifdef __EMSCRIPTEN__
+            if (FILL == GL_LINE) {
+                glBegin(GL_LINE_STRIP);
+                for (int nt = 0, NT = N * T2; nt < NT - 1; ++nt) {
+                    draw_face_vert(corn2[nt]);
+                }
+                for (int nt = 0, NT = N * T2; nt < NT - 1; ++nt) {
+                    draw_face_vert(corn1[nt]);
+                }
+                glEnd();
+            }
+
+            glBegin(FILL == GL_FILL ? GL_TRIANGLE_STRIP : GL_LINE_STRIP);
+#else
             glBegin(GL_TRIANGLE_STRIP);
+#endif
             for (int nt=0,NT=N*T2; nt<NT; ++nt) {
                 draw_face_vert(corn2[nt]);
                 draw_face_vert(corn1[nt]);

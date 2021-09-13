@@ -41,6 +41,8 @@ class Projector
     int w, W, h;                //width, adjusted width, height
     float w_factor, h_factor;   //width and height scaling factors
     float x_center, y_center;   //center for panning
+    int drag_X, drag_Y;         //current dragging position
+    bool panning;
     bool in_stereo;
     bool trailing, trail_paused;
     bool high_quality;
@@ -93,6 +95,10 @@ public:
     { y_center += d * animator->vis_rad * h_factor; update(); }
     void pan_down (float d=2)
     { y_center -= d * animator->vis_rad * h_factor; update(); }
+    void start_pan (int X, int Y)
+    { drag_X = X; drag_Y = Y; panning = true; }
+    void end_pan() { panning = false; }
+    bool pan (int X, int Y);
 
     //conversions: screen -> real space
     float convert_x (float X)
