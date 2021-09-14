@@ -152,7 +152,19 @@ public:
     }
     ~Vertex(void)
     {
-        if(next!= this) delete next;
+        // recursively calling the destructor may
+        // exceed the maximum call stack size
+        // if(next!= this) delete next;
+        Vertex *curr = this;
+        while (curr->next && curr->next != curr) {
+            curr = curr->next;
+        }
+
+        while (curr != this) {
+            curr = curr->prev;
+            delete curr->next;
+            curr->next = NULL;
+        }
     //logger.info() << "-" |0;
     }
 };
