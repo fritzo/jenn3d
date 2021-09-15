@@ -878,9 +878,9 @@
     }
 
     const dpi = window.devicePixelRatio;
-    const width = Module.canvas.clientWidth;
-    const size = Math.round(width * scaleFactor * dpi / 2);
-    return [size, size];
+    const aspectRatio = window.innerWidth < 1200 ? 4 / 3 : 3 / 4;
+    const width = Math.round(Module.canvas.clientWidth * scaleFactor * dpi / 2);
+    return [width, width * aspectRatio];
   }
 
   const resizeCanvas = (scaleFactor = 1) => {
