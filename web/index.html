@@ -48,6 +48,16 @@
       touch-action: none;
       width: 100%;
     }
+
+    .dropdown-item {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .badge {
+      align-self: center;
+      margin-left: auto;
+    }
   </style>
 </head>
 
@@ -71,14 +81,14 @@
   </header>
 
   <div class="row">
-    <aside class="col-xl-2">
+    <aside class="col-xl-auto">
       <nav class="sidebar card py-2 mb-4">
         <ul class="nav flex-column">
           <li>
-            <a class="dropdown-item">Model<span class="float-end ms-2">»</span></a>
+            <a class="dropdown-item">Model<span class="ms-2">»</span></a>
             <ul class="submenu dropdown-menu">
               <li>
-                <a class="dropdown-item">polyhedra<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">polyhedra<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 0, 0)">tetrahedron</li>
                   <li class="dropdown-item" onclick="Module.select(1, 0, 1)">cube</li>
@@ -88,36 +98,36 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">polychora<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">polychora<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 1, 0)">
                     5-cell
-                    <span class="float-end badge bg-light text-muted ms-3">F1</span>
+                    <span class="badge bg-light text-muted ms-3">F1</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 1, 1)">
                     8-cell
-                    <span class="float-end badge bg-light text-muted ms-3">F2</span>
+                    <span class="badge bg-light text-muted ms-3">F2</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 1, 2)">
                     16-cell
-                    <span class="float-end badge bg-light text-muted ms-3">F3</span>
+                    <span class="badge bg-light text-muted ms-3">F3</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 1, 3)">
                     24-cell
-                    <span class="float-end badge bg-light text-muted ms-3">F4</span>
+                    <span class="badge bg-light text-muted ms-3">F4</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 1, 4)">
                     120-cell
-                    <span class="float-end badge bg-light text-muted ms-3">F5</span>
+                    <span class="badge bg-light text-muted ms-3">F5</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 1, 5)">
                     600-cell
-                    <span class="float-end badge bg-light text-muted ms-3">F6</span>
+                    <span class="badge bg-light text-muted ms-3">F6</span>
                   </li>
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">duoprisms<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">duoprisms<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 2, 0)"> 3x3</li>
                   <li class="dropdown-item" onclick="Module.select(1, 2, 1)"> 4x4</li>
@@ -128,12 +138,12 @@
                   <li class="dropdown-item" onclick="Module.select(1, 2, 6)">12x12</li>
                   <li class="dropdown-item" onclick="Module.select(1, 2, 7)">
                     18x18
-                    <span class="float-end badge bg-light text-muted ms-3">F7</span>
+                    <span class="badge bg-light text-muted ms-3">F7</span>
                   </li>
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">truncated `hedra<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">truncated `hedra<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 3, 0)">t. tetra.</li>
                   <li class="dropdown-item" onclick="Module.select(1, 3, 1)">t. cube</li>
@@ -143,7 +153,7 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">truncated `chora<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">truncated `chora<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 4, 0)">t. 5-cell</li>
                   <li class="dropdown-item" onclick="Module.select(1, 4, 1)">t. 16-cell</li>
@@ -151,25 +161,25 @@
                   <li class="dropdown-item" onclick="Module.select(1, 4, 3)">t. 24-cell</li>
                   <li class="dropdown-item" onclick="Module.select(1, 4, 4)">
                     t. 120-cell
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F3</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F3</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 4, 5)">t. 600-cell</li>
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">bitrunc. `chora<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">bitrunc. `chora<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 5, 0)">bt.. 5-cell</li>
                   <li class="dropdown-item" onclick="Module.select(1, 5, 1)">bt. 8-cell</li>
                   <li class="dropdown-item" onclick="Module.select(1, 5, 2)">bt. 24-cell</li>
                   <li class="dropdown-item" onclick="Module.select(1, 5, 3)">
                     bt. 120-cell
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F6</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F6</span>
                   </li>
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">edge-t. `hedra<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">edge-t. `hedra<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 6, 0)">e.t. tetra.</li>
                   <li class="dropdown-item" onclick="Module.select(1, 6, 1)">e.t. octa.</li>
@@ -179,7 +189,7 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">edge-t. `chora<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">edge-t. `chora<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 7, 0)">e.t. 5-cell</li>
                   <li class="dropdown-item" onclick="Module.select(1, 7, 1)">e.t. 8-cell</li>
@@ -187,13 +197,13 @@
                   <li class="dropdown-item" onclick="Module.select(1, 7, 3)">e.t. 24-cell</li>
                   <li class="dropdown-item" onclick="Module.select(1, 7, 4)">
                     e.t. 120-cell
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F4</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F4</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 7, 5)">e.t. 600-cell</li>
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">cayley graphs<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">cayley graphs<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 8, 0)">2-2-2</li>
                   <li class="dropdown-item" onclick="Module.select(1, 8, 1)">2-2-3</li>
@@ -204,28 +214,28 @@
                   <li class="dropdown-item" onclick="Module.select(1, 8, 6)">2-3-5</li>
                   <li class="dropdown-item" onclick="Module.select(1, 8, 7)">
                     3-3-3
-                    <span class="float-end badge bg-light text-muted ms-3">F8</span>
+                    <span class="badge bg-light text-muted ms-3">F8</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 8, 8)">
                     Y
-                    <span class="float-end badge bg-light text-muted ms-3">F9</span>
+                    <span class="badge bg-light text-muted ms-3">F9</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 8, 9)">
                     3-3-4
-                    <span class="float-end badge bg-light text-muted ms-3">F10</span>
+                    <span class="badge bg-light text-muted ms-3">F10</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 8, 10)">
                     3-4-3
-                    <span class="float-end badge bg-light text-muted ms-3">F11</span>
+                    <span class="badge bg-light text-muted ms-3">F11</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 8, 11)">
                     3-3-5
-                    <span class="float-end badge bg-light text-muted ms-3">F12</span>
+                    <span class="badge bg-light text-muted ms-3">F12</span>
                   </li>
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">solids<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">solids<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 9, 0)">torus</li>
                   <li class="dropdown-item" onclick="Module.select(1, 9, 1)">cubes</li>
@@ -238,7 +248,7 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">mazes<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">mazes<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 10, 0)">{3,5}</li>
                   <li class="dropdown-item" onclick="Module.select(1, 10, 1)">{3,3,3}</li>
@@ -251,7 +261,7 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">222-family<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">222-family<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 11, 0)">2-2-2</li>
                   <li class="dropdown-item" onclick="Module.select(1, 11, 1)"> 1</li>
@@ -271,7 +281,7 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">227-family<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">227-family<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 12, 0)">2-2-7</li>
                   <li class="dropdown-item" onclick="Module.select(1, 12, 1)"> 1</li>
@@ -291,7 +301,7 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">233-family<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">233-family<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 13, 0)">2-3-3</li>
                   <li class="dropdown-item" onclick="Module.select(1, 13, 1)"> 1</li>
@@ -311,7 +321,7 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">234-family<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">234-family<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 14, 0)">2-3-4</li>
                   <li class="dropdown-item" onclick="Module.select(1, 14, 1)"> 1</li>
@@ -331,7 +341,7 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">235-family<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">235-family<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 15, 0)">2-3-5</li>
                   <li class="dropdown-item" onclick="Module.select(1, 15, 1)"> 1</li>
@@ -351,7 +361,7 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item"> Y-family<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item"> Y-family<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 16, 0)"> Y</li>
                   <li class="dropdown-item" onclick="Module.select(1, 16, 1)"> 1</li>
@@ -371,7 +381,7 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">333-family<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">333-family<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 17, 0)">3-3-3</li>
                   <li class="dropdown-item" onclick="Module.select(1, 17, 1)"> 1</li>
@@ -391,7 +401,7 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">334-family<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">334-family<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 18, 0)">3-3-4</li>
                   <li class="dropdown-item" onclick="Module.select(1, 18, 1)"> 1</li>
@@ -411,7 +421,7 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">343-family<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">343-family<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 19, 0)">3-4-3</li>
                   <li class="dropdown-item" onclick="Module.select(1, 19, 1)"> 1</li>
@@ -431,57 +441,57 @@
                 </ul>
               </li>
               <li>
-                <a class="dropdown-item">335-family<span class="float-end ms-2">»</span></a>
+                <a class="dropdown-item">335-family<span class="ms-2">»</span></a>
                 <ul class="submenu dropdown-menu">
                   <li class="dropdown-item" onclick="Module.select(1, 20, 0)">3-3-5</li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 1)">
                     1
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F12</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F12</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 2)">
                     2
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F11</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F11</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 3)">
                     3
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F10</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F10</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 4)">
                     4
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F9</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F9</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 5)">
                     1,2
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F8</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F8</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 6)">
                     1,3
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F7</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F7</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 7)">
                     1,4
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F6</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F6</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 8)">
                     2,3
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F5</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F5</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 9)">
                     2,4
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F4</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F4</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 10)">
                     3,4
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F3</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F3</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 11)">1,2,3</li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 12)">
                     1,2,4
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F2</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F2</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 13)">
                     1,3,4
-                    <span class="float-end badge bg-light text-muted ms-3">Shift + F1</span>
+                    <span class="badge bg-light text-muted ms-3">Shift + F1</span>
                   </li>
                   <li class="dropdown-item" onclick="Module.select(1, 20, 14)">2,3,4</li>
                 </ul>
@@ -492,139 +502,139 @@
             <hr class="dropdown-divider">
           </li>
           <li>
-            <a class="dropdown-item">View<span class="float-end ms-2">&raquo;</span></a>
+            <a class="dropdown-item">View<span class="ms-2">&raquo;</span></a>
             <ul class="submenu dropdown-menu">
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="toggle between mono and stereo"
                   onclick="Module.select(2, 0, -1)">
                 stereo/mono
-                <span class="float-end badge bg-light text-muted ms-3">1/2</span>
+                <span class="badge bg-light text-muted ms-3">1/2</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="see the model farther away"
                   onclick="Module.select(2, 1, -1)">
                 zoom out
-                <span class="float-end badge bg-light text-muted ms-3">&darr;</span>
+                <span class="badge bg-light text-muted ms-3">&darr;</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="see the model closer up"
                   onclick="Module.select(2, 2, -1)">
                 zoom in
-                <span class="float-end badge bg-light text-muted ms-3">&uarr;</span>
+                <span class="badge bg-light text-muted ms-3">&uarr;</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="move the camera to the left"
                   onclick="Module.select(2, 3, -1)">
                 pan left
-                <span class="float-end badge bg-light text-muted ms-3">Shift + &larr;</span>
+                <span class="badge bg-light text-muted ms-3">Shift + &larr;</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="move the camera to the right"
                   onclick="Module.select(2, 4, -1)">
                 pan right
-                <span class="float-end badge bg-light text-muted ms-3">Shift + &rarr;</span>
+                <span class="badge bg-light text-muted ms-3">Shift + &rarr;</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="move the camera up"
                   onclick="Module.select(2, 5, -1)">
                 pan up
-                <span class="float-end badge bg-light text-muted ms-3">Shift + &uarr;</span>
+                <span class="badge bg-light text-muted ms-3">Shift + &uarr;</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="move the camera down"
                   onclick="Module.select(2, 6, -1)">
                 pan down
-                <span class="float-end badge bg-light text-muted ms-3">Shift + &darr;</span>
+                <span class="badge bg-light text-muted ms-3">Shift + &darr;</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="adjust the camera to the center of the model"
                   onclick="Module.select(2, 7, -1)">
                 pan center
-                <span class="float-end badge bg-light text-muted ms-3">P</span>
+                <span class="badge bg-light text-muted ms-3">P</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="enter fullscreen"
                   onclick="Module.select(2, 8, -1)">
                 fullscreen
-                <span class="float-end badge bg-light text-muted ms-3">F</span>
+                <span class="badge bg-light text-muted ms-3">F</span>
               </li>
             </ul>
           </li>
           <li>
-            <a class="dropdown-item">Move<span class="float-end ms-2">&raquo;</span></a>
+            <a class="dropdown-item">Move<span class="ms-2">&raquo;</span></a>
             <ul class="submenu dropdown-menu">
               <!--
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="if you have a 1- or 2- button mouse, you can switch mouse channels"
                   onclick="Module.select(3, 0, -1)">
                 flip mouse
-                <span class="float-end badge bg-light text-muted ms-3">m</span>
+                <span class="badge bg-light text-muted ms-3">m</span>
               </li>
               -->
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="toggle drifting"
                   onclick="Module.select(3, 1, -1)">
                 drifting on/off
-                <span class="float-end badge bg-light text-muted ms-3">D</span>
+                <span class="badge bg-light text-muted ms-3">D</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="toggle the high/low drag to let the model float around freely"
                   onclick="Module.select(3, 2, -1)">
                 hi/lo drag
-                <span class="float-end badge bg-light text-muted ms-3">SPACE</span>
+                <span class="badge bg-light text-muted ms-3">SPACE</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="make the model spring to the center"
                   onclick="Module.select(3, 3, -1)">
                 springy
-                <span class="float-end badge bg-light text-muted ms-3">c</span>
+                <span class="badge bg-light text-muted ms-3">c</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="invert the spring"
                   onclick="Module.select(3, 4, -1)">
                 flip spring
-                <span class="float-end badge bg-light text-muted ms-3">i</span>
+                <span class="badge bg-light text-muted ms-3">i</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="set the springs center"
                   onclick="Module.select(3, 5, -1)">
                 tare spring
-                <span class="float-end badge bg-light text-muted ms-3">C</span>
+                <span class="badge bg-light text-muted ms-3">C</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="slow down movement"
                   onclick="Module.select(3, 6, -1)">
                 slower
-                <span class="float-end badge bg-light text-muted ms-3">s</span>
+                <span class="badge bg-light text-muted ms-3">s</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="speed up movement"
                   onclick="Module.select(3, 7, -1)">
                 faster
-                <span class="float-end badge bg-light text-muted ms-3">S</span>
+                <span class="badge bg-light text-muted ms-3">S</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="reset motion"
                   onclick="Module.select(3, 8, -1)">
                 reset
-                <span class="float-end badge bg-light text-muted ms-3">x</span>
+                <span class="badge bg-light text-muted ms-3">x</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="toggle pause"
                   onclick="Module.select(3, 9, -1)">
                 pause
-                <span class="float-end badge bg-light text-muted ms-3">p</span>
+                <span class="badge bg-light text-muted ms-3">p</span>
               </li>
             </ul>
           </li>
           <li>
-            <a class="dropdown-item">Fly<span class="float-end ms-2">&raquo;</span></a>
+            <a class="dropdown-item">Fly<span class="ms-2">&raquo;</span></a>
             <ul class="submenu dropdown-menu">
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="fly through a model"
                   onclick="Module.select(4, 0, -1)">
                 toggle flying
-                <span class="float-end badge bg-light text-muted ms-3">y</span>
+                <span class="badge bg-light text-muted ms-3">y</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="accelerate forward"
@@ -645,7 +655,7 @@
                   title="leave a trail ribbon"
                   onclick="Module.select(4, 4, -1)">
                 trail ribbon
-                <span class="float-end badge bg-light text-muted ms-3">t</span>
+                <span class="badge bg-light text-muted ms-3">t</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="leave a trail tube"
@@ -656,7 +666,7 @@
                   title="break a trail or start a new trail"
                   onclick="Module.select(4, 6, -1)">
                 break trail
-                <span class="float-end badge bg-light text-muted ms-3">T</span>
+                <span class="badge bg-light text-muted ms-3">T</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="pause trail"
@@ -671,66 +681,66 @@
             </ul>
           </li>
           <li>
-            <a class="dropdown-item">Style<span class="float-end ms-2">&raquo;</span></a>
+            <a class="dropdown-item">Style<span class="ms-2">&raquo;</span></a>
             <ul class="submenu dropdown-menu">
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="toggle faces"
                   onclick="Module.select(5, 0, -1)">
                 faces
-                <span class="float-end badge bg-light text-muted ms-3">f</span>
+                <span class="badge bg-light text-muted ms-3">f</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="toggle edges"
                   onclick="Module.select(5, 1, -1)">
                 edges
-                <span class="float-end badge bg-light text-muted ms-3">e</span>
+                <span class="badge bg-light text-muted ms-3">e</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="toggle vertices"
                   onclick="Module.select(5, 2, -1)">
                 vertices
-                <span class="float-end badge bg-light text-muted ms-3">v</span>
+                <span class="badge bg-light text-muted ms-3">v</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="very large models may look better in line-art style"
                   onclick="Module.select(5, 3, -1)">
                 line-art
-                <span class="float-end badge bg-light text-muted ms-3">h</span>
+                <span class="badge bg-light text-muted ms-3">h</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="toggle wireframe style"
                   onclick="Module.select(5, 4, -1)">
                 wireframe
-                <span class="float-end badge bg-light text-muted ms-3">w</span>
+                <span class="badge bg-light text-muted ms-3">w</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title=""
                   onclick="Module.select(5, 5, -1)">
                 thinner
-                <span class="float-end badge bg-light text-muted ms-3">-</span>
+                <span class="badge bg-light text-muted ms-3">-</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title=""
                   onclick="Module.select(5, 6, -1)">
                 fatter
-                <span class="float-end badge bg-light text-muted ms-3">+</span>
+                <span class="badge bg-light text-muted ms-3">+</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title=""
                   onclick="Module.select(5, 7, -1)">
                 fog
-                <span class="float-end badge bg-light text-muted ms-3">H</span>
+                <span class="badge bg-light text-muted ms-3">H</span>
               </li>
             </ul>
           </li>
           <li>
-            <a class="dropdown-item">Capture<span class="float-end ms-2">&raquo;</span></a>
+            <a class="dropdown-item">Capture<span class="ms-2">&raquo;</span></a>
             <ul class="submenu dropdown-menu">
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="toggles between coarse/fine meshes"
                   onclick="Module.select(6, 0, -1)">
                 toggle quality
-                <span class="float-end badge bg-light text-muted ms-3">q</span>
+                <span class="badge bg-light text-muted ms-3">q</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="capture a screenshot in the original resolution"
@@ -755,19 +765,19 @@
             </ul>
           </li>
           <li>
-            <a class="dropdown-item">Export<span class="float-end ms-2">&raquo;</span></a>
+            <a class="dropdown-item">Export<span class="ms-2">&raquo;</span></a>
             <ul class="submenu dropdown-menu">
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="exports geometry to the file jenn_export.stl"
                   onclick="Module.select(7, 0, -1)">
                 export to STL
-                <span class="float-end badge bg-light text-muted ms-3">g</span>
+                <span class="badge bg-light text-muted ms-3">g</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="toggles between coarse/fine meshes"
                   onclick="Module.select(7, 1, -1)">
                 toggle quality
-                <span class="float-end badge bg-light text-muted ms-3">q</span>
+                <span class="badge bg-light text-muted ms-3">q</span>
               </li>
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="increase min edge/vertex thickness for exported model"
@@ -783,7 +793,7 @@
                   title="exports graph to simple text file"
                   onclick="Module.select(7, 4, -1)">
                 export graph
-                <span class="float-end badge bg-light text-muted ms-3">G</span>
+                <span class="badge bg-light text-muted ms-3">G</span>
               </li>
             </ul>
           </li>
@@ -792,43 +802,42 @@
           </li>
 
           <li>
-            <div class="text-wrap px-3 pb-1">
-              <b>Drag behavior</b>
-            </div>
+            <h6 class="dropdown-header fw-bold">Drag behavior</h6>
 
-            <div class="dropdown-item text-decoration-underline" data-bs-toggle="tooltip" data-bs-placement="right"
+            <div class="dropdown-item active" data-bs-toggle="tooltip"
+                 data-bs-placement="right"
                  title="left-drag to rotate along the xz and yz direction, or steer direction in flying mode"
                  onclick="changeDragBehavior(0, this)" data-radio="drag">
               pitch &amp; yaw
-              <span class="float-end badge bg-light text-muted">Left</span>
+              <span class="badge bg-light text-muted ms-3">Left</span>
+            </div>
+
+            <div class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                 title="middle-drag or alt-drag to rotate along the zw and xy direction"
+                 onclick="changeDragBehavior(4, this)" data-radio="drag">
+              roll &amp; zw
+              <span class="badge bg-light text-muted ms-3">Mid / Alt</span>
             </div>
 
             <div class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                  title="right-drag or ctrl-drag to rotate along the xw and yw direction, or control speed in flying mode"
                  onclick="changeDragBehavior(2, this)" data-radio="drag">
               xw &amp; yw
-              <span class="float-end badge bg-light text-muted">Right/Ctrl</span>
-            </div>
-
-            <div class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
-                 title="middle-drag or alt-drag to rotate along the zw and xy direction"
-                 onclick="changeDragBehavior(4, this)" data-radio="drag">
-              zw &amp; roll
-              <span class="float-end badge bg-light text-muted">Mid/Alt</span>
+              <span class="badge bg-light text-muted ms-3">Right / Ctrl</span>
             </div>
 
             <div class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                  title="shift-drag to pan the image"
                  onclick="changeDragBehavior(1, this)" data-radio="drag">
               move
-              <span class="float-end badge bg-light text-muted">Shift</span>
+              <span class="badge bg-light text-muted ms-3">Shift</span>
             </div>
           </li>
 
         </ul>
       </nav>
     </aside>
-    <main class="col-xl-10" id="canvas-container">
+    <main class="col-xl" id="canvas-container">
       <canvas id="canvas" tabindex=-1 oncontextmenu="event.preventDefault()"></canvas>
     </main>
   </div>
@@ -940,8 +949,12 @@
   }
 
   // control drag behavior
-  const dragElems = document.querySelectorAll('[data-radio="drag"]');
+  let activeDrag = document.querySelector('.active[data-radio="drag"]');
   const changeDragBehavior = (key, el) => {
+    activeDrag.classList.remove("active");
+    el.classList.add("active");
+    activeDrag = el;
+
     GLUT.saveModifiers = (event) => {
       GLUT.modifiers = key;
       if (event['shiftKey'])
@@ -951,9 +964,6 @@
       if (event['altKey'])
         GLUT.modifiers = 4; /* GLUT_ACTIVE_ALT */
     }
-    const underline = "text-decoration-underline";
-    dragElems.forEach(e => e.classList.remove(underline));
-    el.classList.add(underline);
   }
 
   // wasm module
