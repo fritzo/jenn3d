@@ -53,7 +53,7 @@
 
 <body class="d-flex flex-column h-100">
 
-<div class="container-xl">
+<div class="container-xxl">
   <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
     <div class="d-flex align-items-center col-md-auto mb-2 mb-md-0">
       <h2><a href="https://jenn3d.org/" class="text-dark text-decoration-none" target="_blank">
@@ -553,12 +553,14 @@
           <li>
             <a class="dropdown-item">Move<span class="float-end ms-2">&raquo;</span></a>
             <ul class="submenu dropdown-menu">
+              <!--
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="if you have a 1- or 2- button mouse, you can switch mouse channels"
                   onclick="Module.select(3, 0, -1)">
                 flip mouse
                 <span class="float-end badge bg-light text-muted ms-3">m</span>
               </li>
+              -->
               <li class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
                   title="toggle drifting"
                   onclick="Module.select(3, 1, -1)">
@@ -752,7 +754,6 @@
               </li>
             </ul>
           </li>
-
           <li>
             <a class="dropdown-item">Export<span class="float-end ms-2">&raquo;</span></a>
             <ul class="submenu dropdown-menu">
@@ -789,19 +790,41 @@
           <li>
             <hr class="dropdown-divider">
           </li>
+
           <li>
-            <div class="text-muted text-wrap px-3">
-              <div class="py-1">
-                <b>Rotate</b> <br> Drag with a 3-btn mouse (or ctrl-drag &amp; alt-drag)
-              </div>
-              <div class="py-1">
-                <b>Pan</b> <br> Shift-drag to pan<br>
-              </div>
-              <div class="py-1">
-                <b>In flying mode</b> <br> Right-drag controls speed <br> Left-drag steers direction
-              </div>
+            <div class="text-wrap px-3 pb-1">
+              <b>Drag behavior</b>
+            </div>
+
+            <div class="dropdown-item text-decoration-underline" data-bs-toggle="tooltip" data-bs-placement="right"
+                 title="left-drag to rotate along the xz and yz direction, or steer direction in flying mode"
+                 onclick="changeDragBehavior(0, this)" data-radio="drag">
+              pitch &amp; yaw
+              <span class="float-end badge bg-light text-muted">Left</span>
+            </div>
+
+            <div class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                 title="right-drag or ctrl-drag to rotate along the xw and yw direction, or control speed in flying mode"
+                 onclick="changeDragBehavior(2, this)" data-radio="drag">
+              xw &amp; yw
+              <span class="float-end badge bg-light text-muted">Right/Ctrl</span>
+            </div>
+
+            <div class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                 title="middle-drag or alt-drag to rotate along the zw and xy direction"
+                 onclick="changeDragBehavior(4, this)" data-radio="drag">
+              zw &amp; roll
+              <span class="float-end badge bg-light text-muted">Mid/Alt</span>
+            </div>
+
+            <div class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                 title="shift-drag to pan the image"
+                 onclick="changeDragBehavior(1, this)" data-radio="drag">
+              move
+              <span class="float-end badge bg-light text-muted">Shift</span>
             </div>
           </li>
+
         </ul>
       </nav>
     </aside>
@@ -883,6 +906,23 @@
 
     Module.canvas.addEventListener("mousewheel", GLUT.onMouseWheel, true);
     Module.canvas.addEventListener("DOMMouseScroll", GLUT.onMouseWheel, true);
+  }
+
+  // control drag behavior
+  const dragElems = document.querySelectorAll('[data-radio="drag"]');
+  const changeDragBehavior = (key, el) => {
+    GLUT.saveModifiers = (event) => {
+      GLUT.modifiers = key;
+      if (event['shiftKey'])
+        GLUT.modifiers = 1; /* GLUT_ACTIVE_SHIFT */
+      if (event['ctrlKey'])
+        GLUT.modifiers = 2; /* GLUT_ACTIVE_CTRL */
+      if (event['altKey'])
+        GLUT.modifiers = 4; /* GLUT_ACTIVE_ALT */
+    }
+    const underline = "text-decoration-underline";
+    dragElems.forEach(e => e.classList.remove(underline));
+    el.classList.add(underline);
   }
 
   // wasm module
