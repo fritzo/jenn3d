@@ -899,13 +899,44 @@
     resizeTimer = setTimeout(resizeCanvas, 500);
   })
 
-  // only zoom when the mouse is on the canvas
-  const patchWheel = () => {
+  // zoom-related
+  let prevTouches;
+  const dist = (t) => (t[0].pageX - t[1].pageX) ** 2 + (t[0].pageY - t[1].pageY) ** 2;
+  const patchZoom = () => {
+    const canvas = Module.canvas;
+
+    // patch mouse wheel so that only scrolling on the canvas activates zoom
     window.removeEventListener("mousewheel", GLUT.onMouseWheel, true);
     window.removeEventListener("DOMMouseScroll", GLUT.onMouseWheel, true);
+    canvas.addEventListener("mousewheel", GLUT.onMouseWheel, true);
+    canvas.addEventListener("DOMMouseScroll", GLUT.onMouseWheel, true);
 
-    Module.canvas.addEventListener("mousewheel", GLUT.onMouseWheel, true);
-    Module.canvas.addEventListener("DOMMouseScroll", GLUT.onMouseWheel, true);
+    // prevent pinch to zoom on web content for iOS devices
+    document.addEventListener('gesturestart', (e) => e.preventDefault())
+
+    // pinch to zoom on touch devices
+    window.removeEventListener("touchmove", GLUT.touchHandler, true);
+    window.removeEventListener("touchstart", GLUT.touchHandler, true);
+    window.removeEventListener("touchend", GLUT.touchHandler, true);
+
+    const touchHandler = (event) => {
+      if (event.touches.length !== 2) {
+        GLUT.touchHandler(event);
+        return;
+      }
+
+      const currTouches = event.touches;
+      if (event.type !== "touchstart") {
+        const option = dist(prevTouches) > dist(currTouches) ? 1 : 2;
+        Module.select(2, option, -1)
+      }
+
+      prevTouches = currTouches;
+    }
+
+    canvas.addEventListener("touchmove", touchHandler, true);
+    canvas.addEventListener("touchstart", touchHandler, true);
+    canvas.addEventListener("touchend", touchHandler, true);
   }
 
   // control drag behavior
@@ -927,7 +958,7 @@
 
   // wasm module
   var Module = {
-    postRun: [() => resizeCanvas(), patchWheel],
+    postRun: [() => resizeCanvas(), patchZoom],
     arguments: "-c 3 2 2 4 2 3 -v 1 2 3 -s 300 150".split(" "),
     canvas: document.getElementById("canvas")
   };
