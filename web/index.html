@@ -797,12 +797,48 @@
               </li>
             </ul>
           </li>
+
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+          <li>
+            <h6 class="dropdown-header fw-bold">Quick Actions</h6>
+
+            <div class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                 title="fly through a model"
+                 onclick="Module.select(4, 0, -1)">
+              fly
+              <span class="badge bg-light text-muted ms-3">y</span>
+            </div>
+
+            <div class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                 title="toggle the high/low drag to let the model float around freely"
+                 onclick="Module.select(3, 2, -1)">
+              drift
+              <span class="badge bg-light text-muted ms-3">SPACE</span>
+            </div>
+
+            <div class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                 title="make the model spring to the center"
+                 onclick="Module.select(3, 3, -1)">
+              springy
+              <span class="badge bg-light text-muted ms-3">c</span>
+            </div>
+
+            <div class="dropdown-item" data-bs-toggle="tooltip" data-bs-placement="right"
+                 title="reset motion"
+                 onclick="Module.select(3, 8, -1)">
+              reset
+              <span class="badge bg-light text-muted ms-3">x</span>
+            </div>
+          </li>
+
           <li>
             <hr class="dropdown-divider">
           </li>
 
           <li>
-            <h6 class="dropdown-header fw-bold">Drag behavior</h6>
+            <h6 class="dropdown-header fw-bold">Drag Behavior</h6>
 
             <div class="dropdown-item active" data-bs-toggle="tooltip"
                  data-bs-placement="right"
