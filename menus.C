@@ -580,6 +580,7 @@ const char * const style_message =
 edges\n\
 vertices\n\
 line-art\n\
+curved\n\
 wireframe\n\
 thinner\n\
 fatter\n\
@@ -607,10 +608,11 @@ void StyleMenu::_call (int N)
         case 1: drawing->toggle_edges();                             break;
         case 2: drawing->toggle_verts();                             break;
         case 3: drawing->toggle_fancy();                             break;
-        case 4: projector->toggle_wireframe();                       break;
-        case 5: drawing->set_tube_rad(drawing->get_tube_rad()/1.2f); break;
-        case 6: drawing->set_tube_rad(drawing->get_tube_rad()*1.2f); break;
-        case 7: drawing->toggle_hazy();                              break;
+        case 4: drawing->toggle_curved();                            break;
+        case 5: projector->toggle_wireframe();                       break;
+        case 6: drawing->set_tube_rad(drawing->get_tube_rad()/1.2f); break;
+        case 7: drawing->set_tube_rad(drawing->get_tube_rad()*1.2f); break;
+        case 8: drawing->toggle_hazy();                              break;
         default: delete this;
     }
 }

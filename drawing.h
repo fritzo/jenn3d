@@ -112,7 +112,7 @@ class Drawing
     float scale, q_scale;
     bool _grid_on;
     bool _drawing_verts, _drawing_edges, _drawing_faces;
-    bool _fancy, _hazy, _wireframe, _high_quality;
+    bool _fancy, _hazy, _wireframe, _curved, _high_quality;
     bool _clipping;
     bool _update_needed;
 public:
@@ -127,8 +127,8 @@ public:
     void toggle_fancy ();
     void toggle_hazy ();
     void toggle_wireframe ();
+    void toggle_curved ();
     void set_quality (bool quality);
-    void set_glut_params ();
     void set_scale (float scale);
     float get_tube_rad () { return tube_rad; }
     void set_tube_rad (float rad);
