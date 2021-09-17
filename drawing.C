@@ -293,6 +293,7 @@ Drawing::Drawing (ToddCoxeter::Graph* g)
       _fancy(true),
       _hazy(false),
       _wireframe(false),
+      _curved(true),
       _high_quality(false),
       _clipping(true),
       _update_needed(true)
@@ -435,7 +436,7 @@ void Drawing::display ()
 #endif
 
     //draw faces
-    if (ord_f and _drawing_faces) {
+    if (ord_f and _drawing_faces and not (not _curved and _wireframe)) {
         glLineWidth(1.0f);
         glEnable(GL_DEPTH_TEST);
         glDepthMask(GL_FALSE);
@@ -599,11 +600,13 @@ int Drawing::get_params ()
     params = (params << 1) + _fancy;
     params = (params << 1) + _hazy;
     params = (params << 1) + _wireframe;
+    params = (params << 1) + _curved;
     return params;
 }
 void Drawing::set_params (int params)
 {
     //reverse order from above!
+    _curved         = params & 1;   params >>= 1;
     _wireframe      = params & 1;   params >>= 1;
     _hazy           = params & 1;   params >>= 1;
     _fancy          = params & 1;   params >>= 1;
@@ -616,6 +619,7 @@ void Drawing::set_params (int params)
 void Drawing::toggle_fancy () { _fancy = not _fancy; update(); }
 void Drawing::toggle_hazy  () { _hazy  = not _hazy;  update(); }
 void Drawing::toggle_wireframe () { _wireframe = not _wireframe; update(); }
+void Drawing::toggle_curved () { _curved = not _curved; update(); }
 void Drawing::set_quality (bool quality)
 {
     _high_quality = quality;
@@ -624,7 +628,7 @@ void Drawing::set_quality (bool quality)
 }
 void Drawing::_update ()
 {
-    base_density = _fancy ? BASE_DENSITY : 2.0f * BASE_DENSITY;
+    base_density = _fancy or not _curved ? BASE_DENSITY : 2.0f * BASE_DENSITY;
 
     glShadeModel(GL_SMOOTH);
     glEnable(GL_MULTISAMPLE);
@@ -663,6 +667,7 @@ inline float max_z (Vect &u, Vect &v, float scale)
 //face/edge subdivision tools
 int Drawing::_num_segments (float w, float dist)
 {
+    if (!_curved) return 1;
     float detail = LINE_SCALE * sqrtf(q_scale) * dist * proj(w);
     int segs = int(1.0f + LINE_SIDES * detail);
     int line_sides = _high_quality ? LINE_SIDES : LINE_SIDES / 2;
@@ -678,6 +683,7 @@ int Drawing::_secant_stride (float w, float rad)
 }
 int Drawing::_num_subdivs (float w, int Nfaces)
 {
+    if (!_curved) return 1;
     float detail = Nfaces *FACE_SCALE *sqrtf(q_scale) *rad0 *powf(proj(w),0.8);
     int sides = int(1.0f + FACE_SIDES * detail);
     int face_sides = _high_quality ? FACE_SIDES : FACE_SIDES / 2;
@@ -1364,7 +1370,7 @@ void Drawing::_draw_face (int f)
 
         //draw a fan
         glBegin(GL_TRIANGLE_FAN);
-        draw_face_vert(center);
+        if (_curved) draw_face_vert(center);
         for(int n=0; n<N; ++n) {
             draw_face_vert(corners[n]);
         }
@@ -1557,8 +1563,10 @@ void Drawing::display_vertex (int v)
                 float rad1 = tube_factor * radii0[v1];
                 _draw_tube(farpoint[j], contact[j], rad0, rad1, w, v0, v1);
             } else {
-                if (_drawing_faces) _draw_arc (midpoint[j], contact[j], w);
-                else                _draw_arc2(midpoint[j], contact[j], w);
+                if (_drawing_faces)
+                    _draw_arc(_curved ? midpoint[j] : farpoint[j], contact[j], w);
+                else
+                    _draw_arc2(_curved ? midpoint[j] : farpoint[j], contact[j], w);
             }
         }
     }
@@ -1614,8 +1622,10 @@ void Drawing::display_vertex (int v)
                 float rad1 = tube_factor * radii0[v1];
                 _draw_tube(farpoint[j], contact[j], rad1, rad0, w, v1, v0);
             } else {
-                if (_drawing_faces) _draw_arc (contact[j], midpoint[j], w);
-                else                _draw_arc2(contact[j], midpoint[j], w);
+                if (_drawing_faces)
+                    _draw_arc(contact[j], _curved ? midpoint[j] : farpoint[j], w);
+                else
+                    _draw_arc2(contact[j], _curved ? midpoint[j] : farpoint[j], w);
             }
         }
     }

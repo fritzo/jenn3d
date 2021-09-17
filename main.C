@@ -222,6 +222,7 @@ void keyboard (unsigned char key, int w_x, int w_y)
         case 'e': drawing->toggle_edges();              break;
         case 'f': drawing->toggle_faces();              break;
         case 'l': drawing->toggle_fancy();              break;
+        case 'L': drawing->toggle_curved();             break;
         case 'H': drawing->toggle_hazy();               break;
         case 'w': projector->toggle_wireframe();        break;
         case 'K': projector->toggle_contrast();         break;
